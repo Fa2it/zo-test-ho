@@ -1,0 +1,18 @@
+{% extends 'main.base.html.twig' %}
+
+{% block title %}Registrieren!{% endblock %}
+
+ {% block mainContent %}
+     <h1>Registrieren</h1>
+     {% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
+     {{ form_start(registrationForm, {'attr': {class: 'w-75 mx-auto'}} ) }}
+     {{ form_row(registrationForm.firstName, { 'label': 'Vorname' }) }}
+     {{ form_row(registrationForm.lastName, { 'label': 'Nachname' }) }}
+     {{ form_row(registrationForm.dateOfBirth, { 'label': 'Geburtsdatum' }) }}
+     {{ form_row(registrationForm.phoneNr, { 'label': 'Handy-Nr' }) }}
+     {{ form_row(registrationForm.email) }}
+     {{ form_row(registrationForm.password) }}
+     <button class="btn btn-success">Anmeldung</button>
+     {{ form_end(registrationForm) }}
+ {% endblock %}
+
