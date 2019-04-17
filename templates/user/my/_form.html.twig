@@ -1,0 +1,9 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{{ form_start(form) }}
+    {{ form_row(form.firstName, {'label': 'Vorname'}) }}
+    {{ form_row(form.lastName, {'label': 'Nachname'}) }}
+    {{ form_row(form.phoneNr, {'label': 'Handy Nr'}) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.dateOfBirth, {'label': 'Geburtsdatum'}) }}
+    <button class="btn btn-secondary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

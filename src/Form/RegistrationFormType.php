@@ -21,7 +21,7 @@ class RegistrationFormType extends AbstractType
             ->add('firstName')
             ->add('lastName')
             ->add('dateOfBirth', DateType::class,[
-                'format' => 'dd-MM-yyyy',
+                'format' => 'dd-MMM-yyyy',
                 'years' => $this->getYearOfBirthOptions()
             ])
             ->add('phoneNr')

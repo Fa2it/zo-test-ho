@@ -1,0 +1,41 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Benutzer{% endblock %}
+
+{% block mainContent %}
+    <h1 style="font-size: 1rem;font-weight: bolder">Benutzer -> Profile</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th class="w-25">Vorname</th>
+                <td>{{ user.firstName }}</td>
+            </tr>
+            <tr>
+                <th>Nachname</th>
+                <td>{{ user.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Handy Nr</th>
+                <td>{{ user.phoneNr }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Geburtsdatum</th>
+                <td>{{ user.dateOfBirth ? user.dateOfBirth|date('d.m.Y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="clearfix">
+        <div class="float-left mr-2">
+            <a class="btn btn-info" href="{{ path('my_user_edit') }}">Bearbeiten</a>
+        </div>
+        <div class="float-left">
+            <a class="btn btn-danger" href="{{ path('my_user_delete') }}">Profile Löschen</a>
+        </div>
+
+    </div>
+{% endblock %}

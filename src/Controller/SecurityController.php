@@ -33,4 +33,13 @@ class SecurityController extends AbstractController
 
         return $this->render('security/activate.html.twig' );
     }
+
+    /**
+     * @Route("/logout", name="app_logout", methods={"GET"})
+     */
+    public function logout()
+    {
+        // controller can be blank: it will never be executed!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
+    }
 }

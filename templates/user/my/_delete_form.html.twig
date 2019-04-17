@@ -1,0 +1,9 @@
+<form method="post" action="{{ path('my_user_delete') }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+    <div class="clearfix">
+        <button class="btn btn-danger mr-4">Löschen</button>
+        <a class="btn btn-success" href="{{ path('my_user_index') }}" >zurück zum Profil</a>
+    </div>
+
+</form>

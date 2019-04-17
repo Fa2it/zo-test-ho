@@ -1,0 +1,9 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Benutzer Löschen{% endblock %}
+
+{% block mainContent %}
+    <h1 style="font-size: 1rem;font-weight: bolder">Benutzer -> Profile Löschen</h1>
+    <p class="text-danger">Wenn Sie Ihr Profil löschen, können Sie unsere App nicht verwenden</p>
+    {{ include('user/my/_delete_form.html.twig') }}
+{% endblock %}
