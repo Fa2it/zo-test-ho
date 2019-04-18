@@ -4,38 +4,46 @@
 
 {% block mainContent %}
     <h1 style="font-size: 1rem;font-weight: bolder">Benutzer -> Profile</h1>
+    <div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                {% if app.user.photo %}
+                    <img src="/media/thumbnail/{{  app.user.getPhoto() }}"  class="card-img" alt="user foto">
+                    {% else %}
+                        <img src="https://via.placeholder.com/50" class="card-img" alt="...">
+                {% endif %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th class="w-25">Vorname</th>
-                <td>{{ user.firstName }}</td>
-            </tr>
-            <tr>
-                <th>Nachname</th>
-                <td>{{ user.lastName }}</td>
-            </tr>
-            <tr>
-                <th>Handy Nr</th>
-                <td>{{ user.phoneNr }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Geburtsdatum</th>
-                <td>{{ user.dateOfBirth ? user.dateOfBirth|date('d.m.Y') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="clearfix">
-        <div class="float-left mr-2">
-            <a class="btn btn-info" href="{{ path('my_user_edit') }}">Bearbeiten</a>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <table class="table table-sm" style="font-size: 0.8rem">
+                        <tbody>
+                        <tr>
+                            <th style="width:20%">Vorname</th>
+                            <td>{{ user.firstName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nachname</th>
+                            <td>{{ user.lastName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Handy Nr</th>
+                            <td>{{ user.phoneNr }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Geburtsdatum</th>
+                            <td>{{ user.dateOfBirth ? user.dateOfBirth|date('d.m.Y') : '' }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-primary" href="{{ path('my_user_profile_show') }}">Profil bearbeiten</a>
+                </div>
+            </div>
         </div>
-        <div class="float-left">
-            <a class="btn btn-danger" href="{{ path('my_user_delete') }}">Profile Löschen</a>
-        </div>
-
     </div>
+
 {% endblock %}

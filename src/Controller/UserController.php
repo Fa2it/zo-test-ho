@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\MyUserType;
+use App\Form\UserType;
+use App\Helper\Media\ImageFiles\ImageUpload;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +35,27 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("my/profile/show", name="my_user_profile_show", methods={"GET","POST"})
+     */
+    public function profile_show(Request $request): Response
+    {
+
+        $user = $this->security->getUser();
+        $form = $this->createForm(MyUserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('my_user_index' );
+        }
+
+        return $this->render('user/my/edit.profile.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
     /**
      * @Route("my/profile/edit", name="my_user_edit", methods={"GET","POST"})
      */
@@ -71,7 +94,56 @@ class UserController extends AbstractController
         return $this->render('user/my/delete.html.twig' );
 
     }
+    /**
+     * @Route("my/profile/photo", name="my_user_photo", methods={"GET","POST"})
+     */
+    public function photo(Request $request,ImageUpload $imageUpload ): Response
+    {
 
+        if ($this->isCsrfTokenValid('_photo', $request->request->get('_token'))) {
+            $user = $this->security->getUser();
+            $imageUpload->setImageUploadDir('images/');
+            $up_file_names =  $imageUpload->upload( $request->files->get('profilePhoto') );
+
+            //dump($up_file_names ); die;
+            $imageUpload->setResizeValue(300);
+            $imageUpload->setFileName($up_file_names[0]);
+            $imageUpload->setImageUploadDir('thumbnail/');
+            $r_upfilenames =  $imageUpload->upload( $request->files->get('profilePhoto') );
+            $user->setPhoto($r_upfilenames[0]);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            return $this->redirectToRoute('my_user_index');
+
+        }
+
+        return $this->render('user/my/photo.html.twig' );
+
+    }
+
+    /**
+     * @Route("my/profile/photo/delete", name="my_user_photo_delete", methods={"POST"})
+     */
+    public function photoRemove(Request $request,ImageUpload $imageUpload ): Response
+    {
+
+        if ($this->isCsrfTokenValid('_dphoto', $request->request->get('_token'))) {
+            /* @var User $user    */
+            $user = $this->security->getUser();
+            $user->setPhoto('' );
+            $imageUpload->setImageUploadDir('images/');
+            $imageUpload->removeImage( $request->request->get('_dprofilePhoto') );
+            $imageUpload->setImageUploadDir('thumbnail/');
+            $imageUpload->removeImage( $request->request->get('_dprofilePhoto') );
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            return $this->redirectToRoute('my_user_index');
+
+        }
+
+        return $this->render('user/my/photo.html.twig' );
+
+    }
     /*****************************************************************************************************/
     /*       Admin Section                                                                               */
     /*****************************************************************************************************/
@@ -82,7 +154,7 @@ class UserController extends AbstractController
      */
     public function admin_index(UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', [
+        return $this->render('user/admin/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
@@ -101,7 +173,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('admin_user_index');
         }
 
         return $this->render('user/new.html.twig', [
@@ -115,7 +187,7 @@ class UserController extends AbstractController
      */
     public function admin_show(User $user): Response
     {
-        return $this->render('user/show.html.twig', [
+        return $this->render('user/admin/show.html.twig', [
             'user' => $user,
         ]);
     }
@@ -131,12 +203,12 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index', [
+            return $this->redirectToRoute('admin_user_index', [
                 'id' => $user->getId(),
             ]);
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('user/admin/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
@@ -153,7 +225,7 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('admin_user_index');
     }
 
 

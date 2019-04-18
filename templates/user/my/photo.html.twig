@@ -1,0 +1,31 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Benutzer bearbeiten{% endblock %}
+
+{% block mainContent %}
+    <h1 style="font-size: 1rem;font-weight: bolder">Benutzer -> Photo bearbeiten</h1>
+    <div class="card" {% if app.user.getPhoto() %}style="width: 12rem;" {% endif %}>
+        <div class="card-body">
+            {% if app.user.photo %}
+                <img src="/media/thumbnail/{{  app.user.getPhoto() }}"  class="card-img" alt="user foto">
+                <form method="post" action="{{ path('my_user_photo_delete') }}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="hidden" name="_dprofilePhoto" value="{{  app.user.getPhoto() }}" id="_dprofilePhoto">
+                        <input type="hidden" name="_token" value="{{ csrf_token('_dphoto') }}">
+                        <button type="submit" class="btn btn-danger mt-3">Photo Löschen</button>
+                    </div>
+                </form>
+                {% else %}
+            <form method="post" action="{{ path('my_user_photo') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="profilePhoto">Profile Photo</label>
+                    <input type="file" name="profilePhoto" class="form-control-file" id="profilePhoto">
+                    <input type="hidden" name="_token" value="{{ csrf_token('_photo') }}">
+                    <button type="submit" class="btn btn-dark mt-3">hochladen</button>
+                </div>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
