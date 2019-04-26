@@ -22,7 +22,7 @@ class ActCode
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="string", length=13)
      */
     private $emailCode;
 

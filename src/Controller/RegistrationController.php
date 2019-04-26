@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\ActCode;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Helper\CodeGenerator\CodeGenerator;
 use App\Message\EmailRegistration;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +32,11 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+            $act_code = new ActCode();
+            $act_code->setEmailCode( ( new CodeGenerator() )->random_string('', 13 ) );
+            $act_code->setPhoneCode( 'XXXXX' );
+            $user->setActCode($act_code);
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -43,5 +50,14 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+
+    /*
+     * @Route("/register/successful", name="app_register_success")
+     */
+
+    public function register_success(){
+
     }
 }

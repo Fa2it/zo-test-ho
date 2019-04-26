@@ -1,0 +1,110 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Benutzer{% endblock %}
+
+{% block mainContent %}
+    <h1 style="font-size: 1rem;font-weight: bolder">Benutzer -> Verifizierung</h1>
+    <div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
+        <div class="row no-gutters">
+                <div class="card-body">
+                    <div id="tb_verify">
+                        {#
+                        {% if app.user.isPhone == false %}
+                        <div class="alert alert-warning" role="alert" id="">
+                            <a href="{{ path('app_activate_phone') }}" >Klicken Sie hier, um Ihre Telefonnummer zu aktivieren</a>
+                        </div>
+                        {% endif %}
+                        #}
+
+                        {% if app.user.isEmail == false %}
+                        <div class="alert alert-warning" role="alert">
+                            Aktivieren Sie Ihr E-Mail-Konto.
+                            Gehen Sie zu Ihrer E-Mail und klicken Sie auf den Aktivierungslink
+                        </div>
+                        {% endif %}
+                        <table class="table table-sm">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th style="width: 15%" scope="col">Überprüfen</th>
+                                <th style="width: 15%" scope="col">Neuen</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">{{ app.user.phoneNr }}</th>
+                                <td>
+                                    {% if app.user.isPhone == 1 %}
+                                        <span class="badge badge-primary p-1">✅</span>
+                                    {% else %}
+                                        {# TODO  can be inplemented latter
+                                        <i class="fas fa-times badge-danger p-1"></i>
+                                        #}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <i id="edit_phone" class="fas fa-edit"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{ app.user.email }}</th>
+                                <td>
+                                    {% if app.user.isEmail == 1 %}
+                                        <span class="badge badge-primary p-1">✅</span>
+                                    {% else %}
+                                        <i class="fas fa-times badge-danger p-1"></i>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <i id="edit_email" class="fas fa-edit"></i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                        {% form_theme emailForm 'bootstrap_4_layout.html.twig' %}
+                        {{ form_start(emailForm, {'attr': {'id': 'my_user_email', 'class':'d-none'}}) }}
+                        {{ form_row(emailForm.email) }}
+                        <button type="submit" class="btn btn-primary mb-2 mr-3">Bestätigen</button>
+                        <button  class="btn btn-secondary mb-2" id="cancel_email">Stornieren</button>
+                        {{ form_end(emailForm) }}
+
+
+                    {% form_theme phoneForm 'bootstrap_4_layout.html.twig' %}
+                    {{ form_start(phoneForm, {'attr': {'id': 'my_user_phone', 'class':'d-none'}}) }}
+                    {{ form_row(phoneForm.phoneNr, {'label': 'Handy Nr'}) }}
+                    <button type="submit" class="btn btn-primary mb-2">Bestätigen</button>
+                    <button class="btn btn-secondary mb-2" id="cancel_phone">Stornieren</button>
+                    {{ form_end(phoneForm) }}
+
+                </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#cancel_email').click(function (e) {
+            $('#my_user_email').toggleClass("d-none");
+            $('#tb_verify').show();
+
+        });
+
+        $('#edit_email').click(function (e) {
+            $('#tb_verify').hide();
+            $('#my_user_email').toggleClass("d-none");
+        });
+
+        $('#cancel_phone').click(function (e) {
+            $('#my_user_phone').toggleClass("d-none");
+            $('#tb_verify').show();
+        });
+
+        $('#edit_phone').click(function (e) {
+            $('#tb_verify').hide();
+            $('#my_user_phone').toggleClass("d-none");
+        });
+    </script>
+{% endblock %}

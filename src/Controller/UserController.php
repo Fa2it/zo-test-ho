@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\ActCode;
+use App\Helper\CodeGenerator\CodeGenerator;
 use App\Entity\User;
+use App\Form\MyUserEmailType;
+use App\Form\MyUserPhoneType;
 use App\Form\MyUserType;
 use App\Form\UserType;
 use App\Helper\Media\ImageFiles\ImageUpload;
+use App\Message\EmailRegistration;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -76,6 +81,51 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("my/profile/email/verify", name="my_user_verify", methods={"GET","POST"})
+     */
+    public function verify( Request $request, EmailRegistration $eR ): Response
+    {
+        /* @var User $user */
+        $user = $this->security->getUser();
+        $emailForm = $this->createForm(MyUserEmailType::class, $user);
+        $phoneForm = $this->createForm(MyUserPhoneType::class, $user);
+        $emailForm->handleRequest($request);
+        $phoneForm->handleRequest($request);
+
+        if ($emailForm->isSubmitted() && $emailForm->isValid()) {
+            $user->setIsEmail( 0 );
+            $act_code = $user->getActCode();
+            $act_code->setEmailCode( ( new CodeGenerator() )->random_string('', 13 ) );
+            // $act_code->setPhoneCode( 'XXXXX' );
+            $user->setActCode($act_code);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            $eR->send($user);
+            /*TODO log user out */
+            $this->get('security.token_storage')->setToken(null);
+            $this->get('session')->invalidate();
+            return $this->redirectToRoute('app_activate', ['user'=>$user]);
+            //return $this->redirectToRoute('app_main_page');
+            //return $this->redirectToRoute('my_user_verify' );
+        }
+
+
+        if ($phoneForm->isSubmitted() && $phoneForm->isValid()) {
+            $user->setIsPhone(0);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('my_user_verify' );
+        }
+
+        return $this->render('user/my/verify.html.twig',[
+            'emailForm' => $emailForm->createView(),
+            'phoneForm' => $phoneForm->createView()
+            ]
+            );
+    }
+
 
     /**
      * @Route("my/profile/delete", name="my_user_delete", methods={"GET","DELETE"})

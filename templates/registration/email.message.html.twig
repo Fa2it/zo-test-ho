@@ -1,13 +1,13 @@
  <h1>Registrieren</h1>
-     <h3>You did it! You registered!</h3>
+     <h3>Hallo  {{ name }} ! Du hast es geschafft!</h3>
 
-     Hi {{ name }}! You're successfully registered.
+     <p>Du bist erfolgreich registriert.</p>
 
      {# example, assuming you have a route named "login" #}
-     Click on the link to, activate your account: <a href="{{ url('app_activate') }}">Activate</a>.
+    <p>Klicken Sie auf den Link,: <a href="{{ url('app_activating',{emailCode:emailCode}) }}">um Ihr Konto zu aktivieren</a>.</p>
 
-     Thanks!
-    {# Makes an absolute URL to the /images/logo.png file #}
+     Danke!
+    {# Makes an absolute URL to the /images/logo.png file
      <img src="{{ absolute_url(asset('images/logo.png')) }}">
-
+     #}
 

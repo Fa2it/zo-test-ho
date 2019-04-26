@@ -14,8 +14,12 @@ class MyUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('phoneNr')
-            ->add('email', EmailType::class)
+            ->add('firstName')
+            ->add('lastName')
+            ->add('dateOfBirth', DateType::class,[
+        'format' => 'dd-MMM-yyyy',
+        'years' => $this->getYearOfBirthOptions()
+        ])
         ;
     }
 

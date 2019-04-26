@@ -1,0 +1,19 @@
+{% extends 'main.base.html.twig' %}
+
+{% block title %}aktivieren Sie!{% endblock %}
+
+ {% block mainContent %}
+
+     <form method="post" class="w-75 mx-auto">
+         <h1 class="h3 mb-3 font-weight-normal">aktivieren Sie ihre Handy</h1>
+         <label for="act_code" class="sr-only">Handy Nr</label>
+         <input type="text" value="" name="act[code]" id="act_code" class="form-control" placeholder="Bitte geben Sie Ihren Handy-Code ein" required autofocus>
+
+         <input type="hidden" name="_csrf_token"
+                value="{{ csrf_token('phone_code') }}"
+         >
+         <button class="btn btn-lg btn-primary mt-3" type="submit">
+             Aktivieren
+         </button>
+     </form>
+ {% endblock %}

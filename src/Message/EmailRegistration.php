@@ -24,15 +24,20 @@ class EmailRegistration
     }
 
     public function send(User $user){
+        /*@var ActCode $actcode */
+        $act_code = $user->getActCode();
 
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('send@example.com')
+        $message = (new \Swift_Message('Zooya Aktivierung'))
+            ->setFrom('info@zooya.com')
             ->setTo($user->getEmail())
             ->setBody(
                 $this->templating->render(
                 // templates/emails/registration.html.twig
                     'registration/email.message.html.twig',
-                    ['name' => $user->getFirstName()]
+                    [
+                        'name' => $user->getFirstName(),
+                        'emailCode' => $act_code->getEmailCode(),
+                    ]
                 ),
                 'text/html'
             )
@@ -47,7 +52,7 @@ class EmailRegistration
             )
             */
         ;
-
+        // dump(['sending mail']); die;
         $this->mailer->send($message);
     }
 
