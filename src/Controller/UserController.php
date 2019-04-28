@@ -104,12 +104,16 @@ class UserController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             $eR->send($user);
-            /*TODO log user out */
-            $this->get('security.token_storage')->setToken(null);
+            /* log user out */
             $this->get('session')->invalidate();
+            $this->get('security.token_storage')->setToken(null);
+
+            /* delete remeber me cookie */
+            $response = new Response();
+            $response->headers->clearCookie('REMEMBERME');
+            $response->send();
+
             return $this->redirectToRoute('app_activate', ['user'=>$user]);
-            //return $this->redirectToRoute('app_main_page');
-            //return $this->redirectToRoute('my_user_verify' );
         }
 
 

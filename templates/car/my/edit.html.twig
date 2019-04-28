@@ -1,0 +1,23 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Benutzer{% endblock %}
+
+{% block mainContent %}
+<h1 style="font-size: 1rem;font-weight: bolder">Auto Profil Bearbieten</h1>
+<div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
+    <div class="row no-gutters">
+        <div class="card-body">
+    {{ include('car/my/_form.html.twig', {'button_label': 'Update'}) }}
+            <hr>
+            <div class="clearfix">
+                <div class="float-left mr-4"><a href="{{ path('my_car_index') }}"><i class="fas fa-list-ol text-dark" style="font-size:1rem"></i></a></div>
+                <div class="float-left"><a href="{{ path('my_car_delete', {'id': car.id,'_token': csrf_token('delete' ~ car.id)}) }}"><i class="fas fa-trash-alt text-danger" style="font-size:1rem"></i></a></div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Benutzer{% endblock %}
+
+{% block mainContent %}
+<h1 style="font-size: 1rem;font-weight: bolder">Car</h1>
+<div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
+    <div class="row no-gutters">
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th class="w-50">Marke</th>
+                        <td>{{ car.brand }}</td>
+                    </tr>
+                    <tr>
+                        <th>Modell</th>
+                        <td>{{ car.model }}</td>
+                    </tr>
+                    <tr>
+                        <th>Chating</th>
+                        <td>{{ car.isChating ? 'Ja' : 'Nein' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Rauchen</th>
+                        <td>{{ car.isSmoking ? 'Ja' : 'Nein' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Music</th>
+                        <td>{{ car.isMusic ? 'Ja' : 'Nein' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tier in Auto</th>
+                        <td>{{ car.isPets ? 'Ja' : 'Nein' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Anzahl der Sitzplätze</th>
+                        <td>{{ car.maxPassangers }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <div class="float-left">
+                    <a class="mr-2" href="{{ path('my_car_index') }}"><i class="fas fa-list-ol text-dark" style="font-size:1rem"></i></a>
+
+                    <a href="{{ path('my_car_edit', {'id': car.id}) }}"><i class="far fa-edit" style="font-size:1rem"></i></a>
+                </div>
+                <div class="float-left ml-4">
+                    <a href="{{ path('my_car_delete', {'id': car.id,'_token': csrf_token('delete' ~ car.id)}) }}"><i class="fas fa-trash-alt text-danger" style="font-size:1rem"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

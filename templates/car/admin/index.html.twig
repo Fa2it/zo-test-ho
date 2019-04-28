@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Car index{% endblock %}
+
+{% block body %}
+    <h1>Car index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Image</th>
+                <th>IsChating</th>
+                <th>IsSmoking</th>
+                <th>IsMusic</th>
+                <th>IsPets</th>
+                <th>MaxPassangers</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for car in cars %}
+            <tr>
+                <td>{{ car.id }}</td>
+                <td>{{ car.brand }}</td>
+                <td>{{ car.model }}</td>
+                <td>{{ car.image }}</td>
+                <td>{{ car.isChating ? 'Yes' : 'No' }}</td>
+                <td>{{ car.isSmoking ? 'Yes' : 'No' }}</td>
+                <td>{{ car.isMusic ? 'Yes' : 'No' }}</td>
+                <td>{{ car.isPets ? 'Yes' : 'No' }}</td>
+                <td>{{ car.maxPassangers }}</td>
+                <td>
+                    <a href="{{ path('car_show', {'id': car.id}) }}">show</a>
+                    <a href="{{ path('car_edit', {'id': car.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('car_new') }}">Create new</a>
+{% endblock %}

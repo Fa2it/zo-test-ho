@@ -1,0 +1,43 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Benutzer{% endblock %}
+
+{% block mainContent %}
+<h1 style="font-size: 1rem;font-weight: bolder">Auto --> Liste</h1>
+<div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
+    <div class="row no-gutters">
+        <div class="card-body">
+    <table class="table">
+        <div class="text-info">Max 3 Autos !</div>
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for car in cars %}
+            <tr>
+                <td>{{ car.brand }}</td>
+                <td>{{ car.model }}</td>
+                <td>
+                    <a href="{{ path('my_car_show', {'id': car.id}) }}"><i class="fas fa-eye mr-2 text-dark"></i></a>
+                    <a href="{{ path('my_car_edit', {'id': car.id}) }}"><i class="far fa-edit mr-3"></i></a>
+                    <a href="{{ path('my_car_delete', {'id': car.id,'_token': csrf_token('delete' ~ car.id)}) }}"><i class="fas fa-trash-alt text-danger"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Kein Auto in der Liste gefunden</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('my_car_new') }}"><i class="fas fa-plus"></i> Neu</a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
