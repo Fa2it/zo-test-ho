@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Car;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,7 +15,7 @@ class CarType extends AbstractType
         $builder
             ->add('brand')
             ->add('model')
-          //  ->add('image')
+            ->add('image', HiddenType::class)
             ->add('isChating')
             ->add('isSmoking')
             ->add('isMusic')

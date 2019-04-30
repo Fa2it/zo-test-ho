@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Car;
 use App\Form\CarType;
+use App\Helper\Media\ImageFiles\ImageUpload;
 use App\Repository\CarRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +36,7 @@ class CarController extends AbstractController
             $car->setUser( $this->getUser() );
             $form = $this->createForm(CarType::class, $car);
             $form->handleRequest($request);
-
+            // dump( $form->getErrors() ); die;
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $entityManager = $this->getDoctrine()->getManager();
@@ -77,7 +78,7 @@ class CarController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('my_car_index', [
+            return $this->redirectToRoute('my_car_show', [
                 'id' => $car->getId(),
             ]);
         }
@@ -91,10 +92,12 @@ class CarController extends AbstractController
     /**
      * @Route("/my/car/{id}/delete/{_token}", name="my_car_delete", methods={"GET"})
      */
-    public function delete(Request $request, CarRepository $carRepository, $id, $_token ): Response
+    public function delete(Request $request, CarRepository $carRepository, $id, $_token,ImageUpload $imageUpload ): Response
     {
         $car = $carRepository->findOneBy(['user'=>$this->getUser(),'id'=>$id]);
         if ($this->isCsrfTokenValid('delete'.$car->getId(), $_token) ) {
+            $imageUpload->setImageUploadDir('car_images/');
+            $imageUpload->removeImage(trim($car->getImage()) );
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($car);
             $entityManager->flush();
@@ -103,8 +106,36 @@ class CarController extends AbstractController
         return $this->redirectToRoute('my_car_index');
     }
 
+    /**
+     * @Route("/my/car/photo/upload", name="my_car_photo", methods={"POST"})
+     */
+    public function car_photo(Request $request,ImageUpload $imageUpload ): Response
+    {
 
+        $imageUpload->setImageUploadDir('car_images/');
+        $imageUpload->setResizeValue(300);
+        $up_file_names =  $imageUpload->upload( $request->files->get('carPhoto') );
 
+        return $this->json(['file_name' => $up_file_names ]);
+    }
+
+    /**
+     * @Route("/my/car/photo/upload/delete", name="my_car_photo_delete", methods={"POST"})
+     */
+    public function car_photo_delete(Request $request,ImageUpload $imageUpload, CarRepository $carRepository ): Response
+    {
+        //TODO use Ajax to delete image
+        $imageUpload->setImageUploadDir('car_images/');
+        $r = $imageUpload->removeImage( $request->request->get('fid') );
+
+        $car = $carRepository->findOneBy(['user'=>$this->getUser()]);
+       if( trim( $car->getImage() ) == trim($request->request->get('fid'))){
+           $car->setImage('');
+           $this->getDoctrine()->getManager()->flush();
+       }
+
+        return $this->json(['file_remove' => $r ]);
+    }
     /*********************************************************************************/
     /*
      * Admin Section

@@ -35,8 +35,11 @@ class ImageUpload
         if( $imageName ) {
             if ( file_exists($this->getImageUploadDir() . $imageName) ) {
                 unlink($this->getImageUploadDir() . $imageName);
+                return ["Success"=>"image removed"];
             }
+            return ["Error"=>"image doesn't exist"];
         }
+        return ["Error"=>"image Name is Empty"];
     }
 
 

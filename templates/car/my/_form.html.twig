@@ -8,5 +8,17 @@
     {{ form_row(form.isSmoking, {'label': 'Rauchen ?'}) }}
     {{ form_row(form.isPets, {'label': 'Tiere im Auto ?'}) }}
     {{ form_row(form.maxPassangers, {'label': 'Der maximale Passagier im Rücksitz'}) }}
-    <button class="btn btn-primary">{{ button_label|default('Speichern') }}</button>
+    <div id="carPhoto-content">
+        {% if car.image is not empty  %}
+        <div class="w-25 mb-3" id="display-carPhoto">
+            <img id="blah" src="/media/car_images/{{ car.image}}" alt="your image" width="100" height="100" />
+            <div id="delete-carPhoto"><i class="fas fa-trash-alt text-danger"></i></div>
+        </div>
+        {% endif %}
+        <div class="form-group {% if car.image is not empty %} d-none{% endif %}" id="form-carPhoto">
+            <label for="carPhoto"></label>
+            <input type="file" class="form-control-file" id="carPhoto" name="carPhoto">
+        </div>
+    </div>
+    <button id="btn-submit" class="btn btn-primary">{{ button_label|default('Speichern') }}</button>
 {{ form_end(form) }}

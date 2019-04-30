@@ -41,7 +41,7 @@ class Car
     private $model;
 
     /**
-     * @ORM\Column(type="string", length=15, nullable=true)
+     * @ORM\Column(type="string", length=25, nullable=true)
      */
     private $image;
 
