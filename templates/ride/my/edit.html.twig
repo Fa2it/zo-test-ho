@@ -1,0 +1,31 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Die Fahrt bearbeiten{% endblock %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link href="{{ asset('css/jquery-ui.min.css') }}" rel="stylesheet">
+    {% endblock %}
+{% block mainContent %}
+<h1 style="font-size: 1rem;font-weight: bolder">Die Fahrt --> bearbeiten</h1>
+<div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
+    <div class="row no-gutters">
+        <div class="card-body">
+            {% if form is not empty %}
+                {{ include('ride/my/_form.html.twig', {'button_label': 'Update'}) }}
+                <hr>
+                <a class="mr-3" href="{{ path('my_ride_index') }}"><i class="fas fa-list-ol"></i></a>
+                <a href="{{ path('my_ride_delete', {'id': ride.id,'_token': csrf_token('delete' ~ ride.id)}) }}"><i class="fas fa-trash-alt text-danger"></i></a>
+                {% else %}
+                <div>something went wrong try again</div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/jquery-ui.min.js') }}" ></script>
+    <script src="{{ asset('js/ride.form.js') }}" ></script>
+    <script src="{{ asset('js/ride-form-rules.js') }}"></script>
+{% endblock %}

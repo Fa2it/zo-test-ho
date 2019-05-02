@@ -1,0 +1,79 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{{ form_start(form, {'attr':{'autocomplete': 'off'}}) }}
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fas fa-street-view"></i></div>
+                </div>
+                {{ form_widget(form.pickUp, {'attr': {'placeholder':'Von...'}}) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fas fa-map-marker-alt"></i></div>
+                </div>
+                {{ form_widget(form.dropOff, {'attr': {'placeholder':'Nach...'}}) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fas fa-car"></i></div>
+                </div>
+                {{ form_widget(form.car) }}
+            </div>
+        </div>
+        <div class="border border-secondary rounded pr-1 pl-1 mb-2">
+            <div class="form-group date">
+                {{ form_label(form.pickUpDate, 'ab Datum',{'label_attr': {'class': 'font-weight-bold'}}) }}
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                    </div>
+                    {{ form_widget(form.pickUpDate) }}
+                </div>
+            </div>
+            <div class="form-group date">
+                {{ form_label(form.pickUpTime, 'ab Uhr',{'label_attr': {'class': 'font-weight-bold'}}) }}
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="far fa-clock"></i></div>
+                    </div>
+                    {{ form_widget(form.pickUpTime) }}
+                </div>
+            </div>
+       </div>
+        <div class="border border-secondary rounded pr-1 pl-1">
+            <div class="form-group date">
+                {{ form_label(form.dropOffDate, 'an Datum',{'label_attr': {'class': 'font-weight-bold'}}) }}
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                    </div>
+                    {{ form_widget(form.dropOffDate) }}
+                </div>
+            </div>
+            <div class="form-group date">
+                <div class="input-group">
+                    {{ form_label(form.dropOffTime, 'an Uhr',{'label_attr': {'class': 'font-weight-bold'}}) }}
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="far fa-clock"></i></div>
+                    </div>
+                    {{ form_widget(form.dropOffTime) }}
+                </div>
+            </div>
+        </div>
+        <div class="border border-secondary font-weight-bold rounded pr-1 pl-1 mb-2 mt-2" id="ride_duration_container">
+            <div>Dauer : <span id="ride_duration_span"></span></div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.description,
+                'Weitere Informationen, Beschreibung, Wann treffen, Wo Sie endlich aufhören, die Farbe des Autos',
+                {'label_attr': {'class': 'text-info font-weight-bold'}}) }}
+            {{ form_widget(form.description) }}
+        </div>
+
+        {{ form_widget(form) }}
+    <button class="btn btn-primary" id="ride_save">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

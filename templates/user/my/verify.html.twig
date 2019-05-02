@@ -7,6 +7,7 @@
     <div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
         <div class="row no-gutters">
                 <div class="card-body">
+                    <p class="text-info font-weight-bold">Wenn Sie Ihre E-Mail ändern, werden Sie dazu aufgefordert, sie erneut zu aktivieren.</p>
                     <div id="tb_verify">
                         {#
                         {% if app.user.isPhone == false %}
@@ -87,6 +88,7 @@
     {{ parent() }}
     <script>
         $('#cancel_email').click(function (e) {
+            e.preventDefault();
             $('#my_user_email').toggleClass("d-none");
             $('#tb_verify').show();
 
@@ -98,6 +100,7 @@
         });
 
         $('#cancel_phone').click(function (e) {
+            e.preventDefault();
             $('#my_user_phone').toggleClass("d-none");
             $('#tb_verify').show();
         });

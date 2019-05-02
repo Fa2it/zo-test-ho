@@ -1,0 +1,55 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Alles Fahrt Plan{% endblock %}
+
+{% block mainContent %}
+<h1 style="font-size: 1rem;font-weight: bolder">Die Fahrt --> Liste</h1>
+<div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
+    <div class="row no-gutters">
+        <div class="card-body">
+            <table class="table table-striped table-bordered w-75">
+                <tbody>
+                    <tr>
+                        <th class="w-25"><a href="{{ path('my_car_index') }}">Auto</a></th>
+                        <td><a href="{{ path( 'my_car_show', {'id':ride.car.id} ) }}">{{ ride.car.brand }} {{ ride.car.model }}</a></td>
+                    </tr>
+                    <tr>
+                        <th>Von</th>
+                        <td>{{ ride.pickUp }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nach</th>
+                        <td>{{ ride.dropOff }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ ride.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Datum</th>
+                        <td>{{ ride.pickUpDate ? ride.pickUpDate|date('d.m.Y') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>ab</th>
+                        <td>{{ ride.pickUpTime ? ride.pickUpTime|date('H:i') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>an</th>
+                        <td>{{ ride.dropOffTime ? ride.dropOffTime|date('H:i') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Dauer</th>
+                        <td>{{ ( ride.dropOffTime and ride.pickUpTime ) ? ( ride.dropOffTime.getTimestamp() - ride.pickUpTime.getTimestamp() )| date('H:i'): ''  }}  Stunde</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a class="mr-2" href="{{ path('my_ride_index') }}"><i class="fas fa-list-ol text-dark" style="font-size:1rem"></i></a>
+
+            <a class="mr-2" href="{{ path('my_ride_edit', {'id': ride.id}) }}"><i class="far fa-edit" style="font-size:1rem"></i></a>
+
+            <a href="{{ path('my_ride_delete', {'id': ride.id,'_token': csrf_token('delete' ~ ride.id)}) }}"><i class="fas fa-trash-alt text-danger" style="font-size:1rem"></i></a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

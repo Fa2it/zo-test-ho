@@ -86,9 +86,15 @@ class User implements UserInterface
      */
     private $cars;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ride", mappedBy="user", orphanRemoval=true)
+     */
+    private $rides;
+
     public function __construct()
     {
         $this->cars = new ArrayCollection();
+        $this->rides = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -300,6 +306,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($car->getUser() === $this) {
                 $car->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ride[]
+     */
+    public function getRides(): Collection
+    {
+        return $this->rides;
+    }
+
+    public function addRide(Ride $ride): self
+    {
+        if (!$this->rides->contains($ride)) {
+            $this->rides[] = $ride;
+            $ride->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRide(Ride $ride): self
+    {
+        if ($this->rides->contains($ride)) {
+            $this->rides->removeElement($ride);
+            // set the owning side to null (unless already changed)
+            if ($ride->getUser() === $this) {
+                $ride->setUser(null);
             }
         }
 

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190428140336 extends AbstractMigration
+final class Version20190501211415 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,8 +22,8 @@ final class Version20190428140336 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE car CHANGE image image VARCHAR(15) DEFAULT NULL');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_773DE69DA76ED3951C52F958D79572D9 ON car (user_id, brand, model)');
+        $this->addSql('ALTER TABLE ride DROP duration');
+        $this->addSql('ALTER TABLE car CHANGE image image VARCHAR(25) DEFAULT NULL');
         $this->addSql('ALTER TABLE act_code CHANGE user_id user_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL, CHANGE phone_nr phone_nr VARCHAR(12) DEFAULT NULL');
     }
@@ -34,8 +34,8 @@ final class Version20190428140336 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE act_code CHANGE user_id user_id INT DEFAULT NULL');
-        $this->addSql('DROP INDEX UNIQ_773DE69DA76ED3951C52F958D79572D9 ON car');
-        $this->addSql('ALTER TABLE car CHANGE image image VARCHAR(15) DEFAULT \'NULL\' COLLATE utf8_unicode_ci');
+        $this->addSql('ALTER TABLE car CHANGE image image VARCHAR(25) DEFAULT \'NULL\' COLLATE utf8_unicode_ci');
+        $this->addSql('ALTER TABLE ride ADD duration INT NOT NULL');
         $this->addSql('ALTER TABLE user CHANGE roles roles LONGTEXT NOT NULL COLLATE utf8mb4_bin, CHANGE phone_nr phone_nr VARCHAR(12) DEFAULT \'NULL\' COLLATE utf8_unicode_ci');
     }
 }

@@ -1,13 +1,23 @@
 {% extends 'main.base.html.twig' %}
 
-{% block title %}Welcome!{% endblock %}
-
+{% block title %} Welcome !{% endblock %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link href="{{ asset('css/jquery-ui.min.css') }}" rel="stylesheet">
+    {% endblock %}
  {% block mainContent %}
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/Development/Symfony-4/zooya/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/Development/Symfony-4/zooya/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
+     {% include "main/_search_ride_form.html.twig" %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/jquery-ui.min.js') }}" ></script>
+    <script src="{{ asset('js/ride.form.js') }}" ></script>
+    <script>
+        $( function() {
+            setDatePicker( 'search_ride_pickUpDate' );
+            setDefaultDate( 'search_ride_pickUpDate' );
+            autoCompleteSearchForm( ['search_ride_pickUp','search_ride_dropOff'] );
+        } );
+    </script>
+    </script>
 {% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Neu Fahrt Plan{% endblock %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link href="{{ asset('css/jquery-ui.min.css') }}" rel="stylesheet">
+    {% endblock %}
+{% block mainContent %}
+<h1 style="font-size: 1rem;font-weight: bolder">Die Fahrt --> Neu Fahrt Plan</h1>
+<div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
+    <div class="row no-gutters">
+
+        <div class="card-body">
+            {% if car_data is not empty  %}
+            <div>
+                {{ include('ride/my/_form.html.twig') }}
+                <hr>
+                <a href="{{ path('my_ride_index') }}">back to list</a>
+            </div>
+            {% else %}
+            <div class="text-info font-weight-bold">
+                Sie müssen zuerst ein Auto erstellen, bevor Sie eine Fahrt erstellen können
+                <a class="nav-link" href="{{ path('my_car_new') }}">
+                    <i class="fas fa-car"></i>
+                    <span> Neu Auto</span></a>
+            </div>
+
+            {% endif %}
+
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/jquery-ui.min.js') }}" ></script>
+    <script src="{{ asset('js/ride.form.js') }}" ></script>
+    <script src="{{ asset('js/ride-form-rules.js') }}"></script>
+{% endblock %}

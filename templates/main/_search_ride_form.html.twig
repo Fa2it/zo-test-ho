@@ -1,10 +1,12 @@
-<form method="post" id="search_ride"   action="{{ path('search_ride') }}">
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% if form is not empty %}
+{{ form_start(form) }}
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fas fa-street-view"></i></div>
             </div>
-            <input type="text" class="form-control" name="user_ride[pickUp]" id="start_location" placeholder="Von..." required>
+            {{ form_widget(form.pickUp, {'attr': {'placeholder':'Von...'}}) }}
         </div>
     </div>
     <div class="form-group">
@@ -12,7 +14,7 @@
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fas fa-map-marker-alt"></i></div>
             </div>
-            <input type="text" class="form-control" name="user_ride[dropOff]" id="end_location" placeholder="Nach.." required>
+            {{ form_widget(form.dropOff, {'attr': {'placeholder':'Nach...'}}) }}
         </div>
     </div>
     <div class="form-group date">
@@ -20,17 +22,9 @@
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
             </div>
-            <input type="text" class="form-control" name="user_ride[pickUpDate]"  id="ride_pickup_date" value="" required>
+            {{ form_widget(form.pickUpDate) }}
         </div>
     </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text"><i class="far fa-clock"></i></div>
-            </div>
-            <input type="text" class="form-control" name="user_ride[pickupTime]" id="ride_pickup_time" value="" required>
-        </div>
-    </div>
-
     <button type="submit" class="btn btn-info" ><i class="fas fa-search"></i> Suche</button>
-</form>
+{{ form_end(form) }}
+{% endif %}

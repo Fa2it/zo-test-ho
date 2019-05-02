@@ -72,21 +72,27 @@ class CarController extends AbstractController
     public function edit(Request $request, CarRepository $carRepository, $id): Response
     {
         $car = $carRepository->findOneBy(['user'=>$this->getUser(),'id'=>$id]);
-        $form = $this->createForm(CarType::class, $car);
-        $form->handleRequest($request);
+        if( $car ){
+            $form = $this->createForm(CarType::class, $car);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('my_car_show', [
-                'id' => $car->getId(),
+                return $this->redirectToRoute('my_car_show', [
+                    'id' => $car->getId(),
+                ]);
+            }
+            return $this->render('car/my/edit.html.twig', [
+                'car' => $car,
+                'form' => $form->createView(),
             ]);
         }
-
         return $this->render('car/my/edit.html.twig', [
-            'car' => $car,
-            'form' => $form->createView(),
+            'car' => null,
+            'form' => null,
         ]);
+
     }
 
     /**
@@ -95,6 +101,7 @@ class CarController extends AbstractController
     public function delete(Request $request, CarRepository $carRepository, $id, $_token,ImageUpload $imageUpload ): Response
     {
         $car = $carRepository->findOneBy(['user'=>$this->getUser(),'id'=>$id]);
+        dump( $car->getRide() ); die;
         if ($this->isCsrfTokenValid('delete'.$car->getId(), $_token) ) {
             $imageUpload->setImageUploadDir('car_images/');
             $imageUpload->removeImage(trim($car->getImage()) );

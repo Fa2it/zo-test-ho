@@ -9,7 +9,7 @@
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
             <div class="input-group-append">
-                <a class="nav-link" href="{{ path('search_ride') }}" id="searchFormLarge">
+                <a class="nav-link" href="{{ path('app_main_page') }}" id="searchFormLarge">
                     <i class="fas fa-search fa-fw"></i>
                 </a>
             </div>
@@ -20,7 +20,7 @@
     <ul class="navbar-nav ml-auto">
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item no-arrow d-sm-none">
-            <a class="nav-link" href="{{ path('search_ride') }}" id="searchForm">
+            <a class="nav-link" href="{{ path('app_main_page') }}" id="searchForm">
                 <i class="fas fa-search fa-fw"></i>
             </a>
         </li>
@@ -42,15 +42,11 @@
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>
-                <a class="dropdown-item" href="{{ path('my_user_index') }}">
-                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Dashboard
-                </a>
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-car fa-sm fa-fw mr-2 text-gray-400"></i>
                     Auto
                 </a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{ path('my_ride_index') }}">
                     <i class="fas fa-bus-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Die Fahrt
                 </a>

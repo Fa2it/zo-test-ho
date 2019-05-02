@@ -70,6 +70,11 @@ class Car
      */
     private $maxPassangers;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Ride", mappedBy="car", cascade={"persist"})
+     */
+    private $ride;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -179,6 +184,23 @@ class Car
     public function setMaxPassangers(int $maxPassangers): self
     {
         $this->maxPassangers = $maxPassangers;
+
+        return $this;
+    }
+
+    public function getRide(): ?Ride
+    {
+        return $this->ride;
+    }
+
+    public function setRide(Ride $ride): self
+    {
+        $this->ride = $ride;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $ride->getCar()) {
+            $ride->setCar($this);
+        }
 
         return $this;
     }

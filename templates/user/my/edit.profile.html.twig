@@ -4,6 +4,5 @@
 
 {% block mainContent %}
     <h1 style="font-size: 1rem;font-weight: bolder">Benutzer -> Profile bearbeiten</h1>
-    <p class="text-info font-weight-bold">Wenn Sie Ihr Telefon oder Ihre E-Mail ändern, werden Sie dazu aufgefordert, sie erneut zu aktivieren.</p>
     {{ include('user/my/_form.profile.html.twig', {'button_label': 'Update'}) }}
 {% endblock %}
