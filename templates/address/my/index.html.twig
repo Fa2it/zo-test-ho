@@ -1,0 +1,42 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}my Address{% endblock %}
+
+{% block mainContent %}
+<h1 style="font-size: 1rem;font-weight: bolder">Addresse</h1>
+<div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
+    <div class="row no-gutters">
+
+        <div class="card-body">
+            {% if address is not empty %}
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>straße</th>
+                    <td>{{ address.street }}</td>
+                </tr>
+                <tr>
+                    <th>HausNummer</th>
+                    <td>{{ address.houseNr }}</td>
+                </tr>
+                <tr>
+                    <th>plz</th>
+                    <td>{{ address.postNr }}</td>
+                </tr>
+                <tr>
+                    <th>ort</th>
+                    <td>{{ address.town }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="{{ path('my_address_edit') }}"><i class="far fa-edit mr-1"></i></a>
+            {#<a class="ml-2" href="{{ path('my_address_delete',{'_token': csrf_token('delete')}) }}"><i class="fas fa-trash-alt text-danger"></i></a>#}
+            {% else %}
+            <div class="text-center" style="height:20rem">
+                <a class="btn btn-info" href="{{ path('my_address_new') }}"><i class="fas fa-plus"></i>  Neu Addresse</a>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

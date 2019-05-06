@@ -8,7 +8,10 @@
         <div class="row no-gutters">
             <div class="col-md-4">
                 {% if app.user.photo %}
-                    <img src="/media/thumbnail/{{  app.user.getPhoto() }}"  class="card-img" alt="user foto">
+                    <img src="/media/thumbnail/{{  app.user.getPhoto() }}"
+                         class="card-img" alt="user foto"
+                         style="max-width: 165px; max-height: 165px"
+                    >
                     {% else %}
                         <img src="https://via.placeholder.com/50" class="card-img" alt="...">
                 {% endif %}

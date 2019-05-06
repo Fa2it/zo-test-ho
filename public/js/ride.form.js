@@ -64,8 +64,8 @@ function autoCompleteSearchForm( searchbuttons ){
                             url: "/search/location/"+request.term,
                             method:"GET",
                             success: function( data ) {
-                                console.log( data );
-                               // response( parsePostleitzahlen( data ) );
+                                //console.log( data );
+                               response( parsePostleitzahlen( data ) );
                             }
                         } );
                     }

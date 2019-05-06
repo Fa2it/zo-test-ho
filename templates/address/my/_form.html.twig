@@ -1,0 +1,8 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{{ form_start(form) }}
+   {{ form_row(form.street, { 'label': 'straße' }) }}
+    {{ form_row(form.houseNr, { 'label': 'Hausnummer' }) }}
+    {{ form_row(form.postNr, { 'label': 'plz' }) }}
+    {{ form_row(form.town, { 'label': 'Ort' }) }}
+    <button class="btn btn-primary">{{ button_label|default('Speichern') }}</button>
+{{ form_end(form) }}

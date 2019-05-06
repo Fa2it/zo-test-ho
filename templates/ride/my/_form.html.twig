@@ -24,6 +24,22 @@
                 {{ form_widget(form.car) }}
             </div>
         </div>
+        <div class="form-group">
+            <div class="input-group">
+                {{ form_widget(form.price, {'attr': {'placeholder':'Kosten pro Person....'}}) }}
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fas fa-euro-sign"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                {{ form_widget(form.passengers ) }}
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fas fa-running"></i></div>
+                </div>
+            </div>
+        </div>
         <div class="border border-secondary rounded pr-1 pl-1 mb-2">
             <div class="form-group date">
                 {{ form_label(form.pickUpDate, 'ab Datum',{'label_attr': {'class': 'font-weight-bold'}}) }}
@@ -71,6 +87,7 @@
             {{ form_label(form.description,
                 'Weitere Informationen, Beschreibung, Wann treffen, Wo Sie endlich aufhören, die Farbe des Autos',
                 {'label_attr': {'class': 'text-info font-weight-bold'}}) }}
+            <span class="text-dark font-weight-bold">Optional *</span>
             {{ form_widget(form.description) }}
         </div>
 

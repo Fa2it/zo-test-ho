@@ -2,8 +2,12 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CarRepository")
@@ -17,6 +21,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Car
 {
+    use TimestampableEntity;
+
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -67,13 +74,30 @@ class Car
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      max = 3,
+     *      maxMessage = "Not more than {{ limit }}cm to enter"
+     * )
      */
-    private $maxPassangers;
+    private $maxPassangers =0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Ride", mappedBy="car", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Ride", mappedBy="car", cascade={"persist", "remove"} )
      */
-    private $ride;
+    private $rides;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="car")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $address;
+
+
+    public function __construct()
+    {
+        $this->rides = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -188,19 +212,45 @@ class Car
         return $this;
     }
 
-    public function getRide(): ?Ride
+    /**
+     * @return Collection|Ride[]
+     */
+    public function getRides(): Collection
     {
-        return $this->ride;
+        return $this->rides;
     }
 
-    public function setRide(Ride $ride): self
+    public function addRide(Ride $ride): self
     {
-        $this->ride = $ride;
-
-        // set the owning side of the relation if necessary
-        if ($this !== $ride->getCar()) {
+        if (!$this->rides->contains($ride)) {
+            $this->rides[] = $ride;
             $ride->setCar($this);
         }
+
+        return $this;
+    }
+
+    public function removeRide(Ride $ride): self
+    {
+        if ($this->rides->contains($ride)) {
+            $this->rides->removeElement($ride);
+            // set the owning side to null (unless already changed)
+            if ($ride->getCar() === $this) {
+                $ride->setCar(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

@@ -34,7 +34,7 @@
                         <td>{{ car.isPets ? 'Ja' : 'Nein' }}</td>
                     </tr>
                     <tr>
-                        <th>Anzahl der Sitzplätze</th>
+                        <th>Platz auf der Rückbank</th>
                         <td>{{ car.maxPassangers }}</td>
                     </tr>
                     <tr>
@@ -42,7 +42,7 @@
                         <td>{% if car.image is not empty  %}
                             <div class="w-25 mb-3" id="display-carPhoto">
                                 <img id="blah" src="/media/car_images/{{ car.image}}"
-                                     alt="your image" width="100" height="100" />
+                                     alt="your image" style="max-width: 120px; max-height: 120px" />
                             </div>
                             {% endif %}
                         </td>

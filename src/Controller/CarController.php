@@ -40,6 +40,7 @@ class CarController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $entityManager = $this->getDoctrine()->getManager();
+                $car->setAddress(  $this->getUser()->getAddress() );
                 $entityManager->persist($car);
                 $entityManager->flush();
                 return $this->redirectToRoute('my_car_index');
@@ -77,12 +78,14 @@ class CarController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                $car->setAddress( $this->getUser()->getAddress());
                 $this->getDoctrine()->getManager()->flush();
 
                 return $this->redirectToRoute('my_car_show', [
                     'id' => $car->getId(),
                 ]);
             }
+
             return $this->render('car/my/edit.html.twig', [
                 'car' => $car,
                 'form' => $form->createView(),
@@ -101,7 +104,6 @@ class CarController extends AbstractController
     public function delete(Request $request, CarRepository $carRepository, $id, $_token,ImageUpload $imageUpload ): Response
     {
         $car = $carRepository->findOneBy(['user'=>$this->getUser(),'id'=>$id]);
-        dump( $car->getRide() ); die;
         if ($this->isCsrfTokenValid('delete'.$car->getId(), $_token) ) {
             $imageUpload->setImageUploadDir('car_images/');
             $imageUpload->removeImage(trim($car->getImage()) );

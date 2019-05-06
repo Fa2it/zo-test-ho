@@ -1,0 +1,12 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}Edit Address{% endblock %}
+
+{% block mainContent %}
+    <h1>Edit Address</h1>
+
+    {{ include('address/my/_form.html.twig', {'button_label': 'Update'}) }}
+    <hr class="mb-3">
+    <a class="mr-3" href="{{ path('my_address_index') }}">Züruck</a>
+    {# <a href="{{ path('my_address_delete',{'_token': csrf_token('delete')}) }}"><i class="fas fa-trash-alt text-danger"></i></a> #}
+{% endblock %}

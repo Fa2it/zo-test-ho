@@ -1,0 +1,16 @@
+{% extends 'main.base.html.twig' %}
+
+{% block title %}Passwort Reset!{% endblock %}
+
+{% block mainContent %}
+    {% if pwd_sucess == false  %}
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-secondary">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+    {% else %}
+        <div>Password reset successfully </div>
+    {% endif %}
+
+{% endblock %}

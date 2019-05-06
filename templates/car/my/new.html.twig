@@ -9,23 +9,34 @@
 <h1 style="font-size: 1rem;font-weight: bolder">Auto --> Neuen</h1>
 <div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
     <div class="row no-gutters">
+        {% if app.user.address is not empty %}
         <div class="card-body">
-            {% if form is not empty %}
-            <div class="w-50">
-                {{ include('car/my/_form.html.twig') }}
+
+                {% if form is not empty %}
+                <div class="w-50">
+                    {{ include('car/my/_form.html.twig') }}
+                </div>
+
+                <hr>
+                <a class="mt-3" style="font-size:1rem"  href="{{ path('my_car_index') }}"><i class="fas fa-list-ol"></i></a>
+                {% else %}
+                    <div>Nur 3 Autos sind erlaubt</div>
+                    <hr>
+                    <a class="mt-3" style="font-size:1rem"  href="{{ path('my_car_index') }}"><i class="fas fa-list-ol"></i></a>
+                {% endif %}
+        </div>
+            {% else %}
+            <div class="p-1">
+                <p>You need to fully register before you can create car profile</p>
+                <a class="btn btn-info" href="{{ path('my_address_new') }}">Neu Address</a>
             </div>
 
-            <hr>
-            <a class="mt-3" style="font-size:1rem"  href="{{ path('my_car_index') }}"><i class="fas fa-list-ol"></i></a>
-        </div>
+        {% endif %}
     </div>
-    {% else %}
-    <div>Nur 3 Autos sind erlaubt</div>
-        <hr>
-        <a class="mt-3" style="font-size:1rem"  href="{{ path('my_car_index') }}"><i class="fas fa-list-ol"></i></a>
-    {% endif %}
+
 
 </div>
+
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

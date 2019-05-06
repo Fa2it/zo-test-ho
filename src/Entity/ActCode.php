@@ -22,12 +22,12 @@ class ActCode
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=13)
+     * @ORM\Column(type="string", length=40)
      */
     private $emailCode;
 
     /**
-     * @ORM\Column(type="string", length=6)
+     * @ORM\Column(type="string", length=40)
      */
     private $phoneCode;
 

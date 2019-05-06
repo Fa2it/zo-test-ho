@@ -22,8 +22,12 @@
                         <td>{{ ride.dropOff }}</td>
                     </tr>
                     <tr>
-                        <th>Description</th>
-                        <td>{{ ride.description }}</td>
+                        <th>Price/Person</th>
+                        <td>{{ ride.price }} <i class="fas fa-euro-sign"></i></td>
+                    </tr>
+                    <tr>
+                        <th>Reisende</th>
+                        <td>{{ ride.passengers }} <i class="fas fa-running"></i></td>
                     </tr>
                     <tr>
                         <th>Datum</th>
@@ -39,7 +43,11 @@
                     </tr>
                     <tr>
                         <th>Dauer</th>
-                        <td>{{ ( ride.dropOffTime and ride.pickUpTime ) ? ( ride.dropOffTime.getTimestamp() - ride.pickUpTime.getTimestamp() )| date('H:i'): ''  }}  Stunde</td>
+                        <td>{{ ( ride.dropOffTime and ride.pickUpTime ) ? ( ride.dropOffTime.getTimestamp() - ride.pickUpTime.getTimestamp() )/3600: ''  }}  Stunde</td>
+                    </tr>
+                    <tr>
+                        <th>Beschreibung</th>
+                        <td>{{ ride.description }}</td>
                     </tr>
                 </tbody>
             </table>

@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RideRepository")
  */
 class Ride
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -21,12 +25,6 @@ class Ride
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Car", inversedBy="ride", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $car;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -63,6 +61,34 @@ class Ride
      */
     private $dropOffDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Car", inversedBy="rides")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $car;
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 6,
+     *      minMessage = "You must be at least {{ limit }}cm tall to enter",
+     *      maxMessage = "You cannot be taller than {{ limit }}cm to enter"
+     * )
+     */
+
+    private $passengers;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 0,
+     *      minMessage = "You must be at least {{ limit }}cm tall to enter",
+     * )
+     */
+    private $price;
+
 
     public function getId(): ?int
     {
@@ -77,18 +103,6 @@ class Ride
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getCar(): ?Car
-    {
-        return $this->car;
-    }
-
-    public function setCar(Car $car): self
-    {
-        $this->car = $car;
 
         return $this;
     }
@@ -176,4 +190,41 @@ class Ride
 
         return $this;
     }
+
+    public function getCar(): ?Car
+    {
+        return $this->car;
+    }
+
+    public function setCar(?Car $car): self
+    {
+        $this->car = $car;
+
+        return $this;
+    }
+
+    public function getPassengers(): ?int
+    {
+        return $this->passengers;
+    }
+
+    public function setPassengers(int $passengers): self
+    {
+        $this->passengers = $passengers;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
 }

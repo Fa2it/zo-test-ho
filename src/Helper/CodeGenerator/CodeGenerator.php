@@ -15,7 +15,7 @@ class CodeGenerator
      public function random_string(string  $input='',  int $strength = 5): string
      {
          if( empty($input) ){
-             $input = '123456789ABCDEFGHIJKLMNPQRSTUVWXYZ';
+             $input = str_shuffle('123456789ABCDEFGHIJKLMNPQRSTUVWXYZ');
          }
 
          $input_length = strlen($input);

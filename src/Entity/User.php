@@ -91,6 +91,16 @@ class User implements UserInterface
      */
     private $rides;
 
+    /**
+     * @ORM\Column(type="string", length=1)
+     */
+    private $sex;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Address", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $address;
+
     public function __construct()
     {
         $this->cars = new ArrayCollection();
@@ -338,6 +348,44 @@ class User implements UserInterface
             if ($ride->getUser() === $this) {
                 $ride->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getAge()
+    {
+        $now = new \DateTime('now');
+        $age = $this->getDateOfBirth();
+        $difference = $now->diff($age);
+
+        return $difference->format('%y');
+    }
+
+    public function getSex(): ?string
+    {
+        return $this->sex;
+    }
+
+    public function setSex(string $sex): self
+    {
+        $this->sex = $sex;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): self
+    {
+        $this->address = $address;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $address->getUser()) {
+            $address->setUser($this);
         }
 
         return $this;

@@ -1,0 +1,21 @@
+{% extends 'main.base.html.twig' %}
+
+{% block title %}Passwort vergessen!{% endblock %}
+
+ {% block mainContent %}
+     {% if result is empty %}
+    <h1 class="h3 mb-3 font-weight-bold">Neu Password</h1>
+         <form name="user_email" method="post">
+                 <div class="form-group">
+                     <label for="email" class="required"> Email </label>
+                     <input type="email" id="email" name="email" required="required" class="form-control">
+                 </div>
+                 <div class="form-group">
+                     <button type="submit" id="submit" name="submit" class="btn btn-lg btn-primary mb-2 btn">Einreichen</button>
+                 </div>
+                 <input type="hidden" name="_token" value="{{ csrf_token('password') }}">
+         </form>
+         {% else %}
+         <p class="text-info"> Neues Passwort wurde an Ihre E-Mail gesendet</p>
+    {% endif %}
+{% endblock %}

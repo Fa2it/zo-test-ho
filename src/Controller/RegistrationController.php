@@ -33,7 +33,8 @@ class RegistrationController extends AbstractController
                 )
             );
             $act_code = new ActCode();
-            $act_code->setEmailCode( ( new CodeGenerator() )->random_string('', 13 ) );
+            $str ="12345fghijklmnopqrstuvwxyzABCDEFGH67890abcdeIJKLMNOPQRSTUVWXYZ";
+            $act_code->setEmailCode( ( new CodeGenerator() )->random_string($str, 40 ) );
             $act_code->setPhoneCode( 'XXXXX' );
             $user->setActCode($act_code);
 

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ContactAdmin index{% endblock %}
+
+{% block body %}
+    <h1>ContactAdmin index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Topic</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contact_admin in contact_admins %}
+            <tr>
+                <td>{{ contact_admin.id }}</td>
+                <td>{{ contact_admin.email }}</td>
+                <td>{{ contact_admin.message }}</td>
+                <td>{{ contact_admin.topic }}</td>
+                <td>
+                    <a href="{{ path('contact_admin_show', {'id': contact_admin.id}) }}">show</a>
+                    <a href="{{ path('contact_admin_edit', {'id': contact_admin.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('contact_admin_new') }}">Create new</a>
+{% endblock %}

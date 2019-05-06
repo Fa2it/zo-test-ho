@@ -19,6 +19,42 @@ class RideRepository extends ServiceEntityRepository
         parent::__construct($registry, Ride::class);
     }
 
+    /**
+     * @return Ride[] Returns an array of Ride objects
+    */
+
+    public function findBySearch( array $value)
+    {
+        $time_now = new \DateTime('NOW' );
+        // dump( $time_now->format('H:i:s') ); die;
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.pickUp = :pickUp')
+            ->setParameter('pickUp', $value['pickUp'])
+            ->andWhere('r.dropOff = :dropOff')
+            ->setParameter('dropOff', $value['dropOff'])
+            ->andWhere('r.pickUpDate = :pickUpDate')
+            ->setParameter('pickUpDate', $this->germanTimeToDate( $value['pickUpDate'] ) )
+            // ->andWhere('r.pickUpTime >= :pickUpTime')
+            // ->setParameter('pickUpTime', $time_now->format('H:i:s') )
+            ->orderBy('r.pickUpTime', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+    private function germanTimeToDate( string $gdate ){
+        // 03.05.2019
+        $r = explode(".", $gdate );
+        if( count($r) == 3 ){
+            return new \DateTime($r[2].'/'.$r[1].'/'.$r[0]);
+        }
+        return null;
+    }
+
+
+
     // /**
     //  * @return Ride[] Returns an array of Ride objects
     //  */

@@ -142,6 +142,12 @@ class UserController extends AbstractController
             $entityManager->flush();
             $this->get('security.token_storage')->setToken(null);
             $this->get('session')->invalidate();
+
+            /* delete remeber me cookie */
+            $response = new Response();
+            $response->headers->clearCookie('REMEMBERME');
+            $response->send();
+
             return $this->redirectToRoute('app_main_page');
         }
 

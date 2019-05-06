@@ -56,4 +56,26 @@ class EmailRegistration
         $this->mailer->send($message);
     }
 
+    public function sendPassword(User $user, $password, $pwdCode_in ){
+
+        $message = (new \Swift_Message('Zooya Neu Password'))
+            ->setFrom('info@zooya.com')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->templating->render(
+                // templates/emails/registration.html.twig
+                    'registration/password.message.html.twig',
+                    [
+                        'user' => $user,
+                        'NeuPassword' => $password,
+                        'pwdCode'=>$pwdCode_in,
+                    ]
+                ),
+                'text/html'
+            )
+        ;
+
+        $this->mailer->send($message);
+    }
+
 }

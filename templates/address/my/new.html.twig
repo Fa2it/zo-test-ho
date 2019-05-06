@@ -1,0 +1,15 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}New Address{% endblock %}
+
+{% block mainContent %}
+    <h1 style="font-size: 1rem;font-weight: bolder">Neu Address</h1>
+    <div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
+        <div class="row no-gutters">
+
+            <div class="card-body">
+            {{ include('address/my/_form.html.twig') }}
+             </div>
+        </div>
+    </div>
+{% endblock %}

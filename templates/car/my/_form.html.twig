@@ -7,11 +7,11 @@
     {{ form_row(form.isMusic, {'label': 'Musik ?'}) }}
     {{ form_row(form.isSmoking, {'label': 'Rauchen ?'}) }}
     {{ form_row(form.isPets, {'label': 'Tiere im Auto ?'}) }}
-    {{ form_row(form.maxPassangers, {'label': 'Der maximale Passagier im Rücksitz'}) }}
+    {{ form_row(form.maxPassangers, {'label': 'Max. 3 Platz auf der Rückbank'}) }}
     <div id="carPhoto-content">
         {% if car.image is not empty  %}
         <div class="w-25 mb-3" id="display-carPhoto">
-            <img id="blah" src="/media/car_images/{{ car.image}}" alt="your image" width="100" height="100" />
+            <img id="blah" src="/media/car_images/{{ car.image}}" alt="your image" style="max-width: 120px; max-height: 120px" />
             <div id="delete-carPhoto"><i class="fas fa-trash-alt text-danger"></i></div>
         </div>
         {% endif %}

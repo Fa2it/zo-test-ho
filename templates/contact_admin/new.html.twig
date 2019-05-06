@@ -1,0 +1,13 @@
+{% extends 'my.base.html.twig' %}
+
+{% block title %}New ContactAdmin{% endblock %}
+
+{% block mainContent %}
+
+    {% if is_posted  == false %}
+    {{ include('contact_admin/_form.html.twig') }}
+        {% else %}
+        <div class="text-info"> your Message was send</div>
+    {% endif %}
+
+{% endblock %}

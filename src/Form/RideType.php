@@ -30,6 +30,12 @@ class RideType extends AbstractType
             ])
             ->add('pickUp')
             ->add('dropOff')
+            ->add('price')
+            ->add('passengers', ChoiceType::class,[
+                'placeholder' => 'Reisende ....',
+                'choices'=>[ 1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6
+                ],
+                ])
             ->add('pickUpDate', DateType::class,[
                 'widget' => 'single_text',
                 'format' => 'dd.MM.yyyy',

@@ -1,6 +1,6 @@
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 {% if form is not empty %}
-{{ form_start(form) }}
+{{ form_start(form, {'method': 'GET'}) }}
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-prepend">

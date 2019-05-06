@@ -116,7 +116,7 @@ class RideController extends AbstractController
      */
     /**
      * @Route("/", name="ride_index", methods={"GET"})
-     */
+     *
     public function admi_index(RideRepository $rideRepository): Response
     {
         return $this->render('ride/index.html.twig', [
