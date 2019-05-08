@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class ImageUpload
 {
     const _DEFAULT_IMAGE_FOLDER = "../public/media/";
-    const _DEFAULT_MAX_SIZE = 500;
+    const _DEFAULT_MAX_SIZE = 5000;
 
     private $image_upload_dir;
     private $max_image_size;

@@ -164,8 +164,7 @@ class UserController extends AbstractController
             $user = $this->security->getUser();
             $imageUpload->setImageUploadDir('images/');
             $up_file_names =  $imageUpload->upload( $request->files->get('profilePhoto') );
-            dump( $up_file_names[0]); die;
-            if( ! in_array('ERROR', $up_file_names)){
+            if( ! is_array( $up_file_names[0] ) ){
                 //dump($up_file_names ); die;
                 $imageUpload->setResizeValue(300);
                 $imageUpload->setFileName($up_file_names[0]);
