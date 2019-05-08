@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<div id="scroll-search" class="container" style="width:800px; margin: 10px auto">
+    <form id="scroll-search-form" name="test_form" method="post" action="/search/ride/scroll/test">
+        <label>Date</label>
+        <input type="text" id="_pick_up_date" name="test_form[_pick_up_date]" value=""> <br>
+        <label>Pick Up</label>
+        <input type="text" id="_pick_up" name="test_form[_pick_up]" value=""> <br>
+        <label>Drop Off</label>
+        <input type="text" id="_drop_off" name="test_form[_drop_off]" value=""> <br>
+        <label>Next</label>
+        <input type="text" id="_next" name="test_form[_next]" value=""> <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<footer class="footer">
+    <div class="container" style="background-color:#576b95">
+        {% include "components/footer/my.footer.html.twig" %}
+    </div>
+</footer>
+{% block body %}{% endblock %}
+{% block javascripts %}{% endblock %}
+</body>
+</html>

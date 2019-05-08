@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ride;
 use App\Form\SearchRideType;
+use App\Helper\search\RideView;
 use App\Repository\GermanyRepository;
 use App\Repository\RideRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,19 +21,56 @@ class MainController extends AbstractController
 
         $form = $this->createForm(SearchRideType::class, new Ride() );
         $rides = [];
+        $submitted = false;
+        $ridesCount = 0;
         $q = $request->query->get('search_ride');
         if ($this->isCsrfTokenValid('search_ride', $q['_token']) ) {
-            // dump( $q ); die;
+            $submitted = true;
             $rides = $rideR->findBySearch( $q );
+            $ridesCount = $rideR->findBySearchCount($q);
         }
 
         return $this->render('main/index.html.twig', [
             'form' => $form->createView(),
             'rides' => $rides,
-            'search_query' =>null,
+            'ridesCount'=>$ridesCount,
+            'is_submitted' =>$submitted,
         ]);
     }
+    /**
+     * @Route("/search/ride/scroll", name="ride_search_scroll" , methods={"POST"})
+     */
+    public function search_scroll(Request $request, RideRepository $rR, RideView $rV )
+    {
 
+        $r = $request->request->get('_scroll_search');
+        $d = ['pickUp'=>$r['_pick_up'],'dropOff'=>$r['_drop_off'],'pickUpDate'=>$r['_pick_up_date'],'next'=>$r['_next'] ];
+        $ride = $rR->findOneByScroll( $d );
+        if($ride){
+            return $this->json( ['ride' => $rV->renderAnchor( $ride) ]);
+        } else{
+            return $this->json( ['ride' => null ]);
+        }
+
+    }
+
+    /**
+     * @Route("/search/ride/scroll/test", name="ride_search_scroll_TEST" , methods={"GET","POST"})
+     */
+    public function search_scroll_test(Request $request, RideRepository $rR,  RideView $rV )
+    {
+
+        $r = null;
+        $r = $request->request->get('test_form');
+        if( $r ){
+            $d = ['pickUp'=>$r['_pick_up'],'dropOff'=>$r['_drop_off'],'pickUpDate'=>$r['_pick_up_date'],'next'=>$r['_next'] ];
+            $ride = $rR->findOneByScroll( $d );
+            $a = $rV->renderAnchor($ride);
+            dump($a ); die;
+        }
+        return $this->render('main/search.test.html.twig');
+
+    }
     /**
      * @Route("my/search/{id}/details", name="ride_search_details" , methods={"GET"})
      */

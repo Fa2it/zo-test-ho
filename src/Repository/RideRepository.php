@@ -25,8 +25,40 @@ class RideRepository extends ServiceEntityRepository
 
     public function findBySearch( array $value)
     {
-        $time_now = new \DateTime('NOW' );
         // dump( $time_now->format('H:i:s') ); die;
+        return $this->searchQB($value)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Ride[] Returns an array of Ride objects
+     */
+
+    public function findBySearchCount( array $value)
+    {
+        // dump( $time_now->format('H:i:s') ); die;
+        return $this->searchQB($value)
+            ->select('count(r.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
+    public function findOneByScroll(array $value)
+    {
+        $oset = 10 + intval( $value['next'] );
+        return $this->searchQB($value)
+            ->setMaxResults(1)
+            ->setFirstResult( $oset )
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    private function searchQB( array $value){
         return $this->createQueryBuilder('r')
             ->andWhere('r.pickUp = :pickUp')
             ->setParameter('pickUp', $value['pickUp'])
@@ -34,15 +66,8 @@ class RideRepository extends ServiceEntityRepository
             ->setParameter('dropOff', $value['dropOff'])
             ->andWhere('r.pickUpDate = :pickUpDate')
             ->setParameter('pickUpDate', $this->germanTimeToDate( $value['pickUpDate'] ) )
-            // ->andWhere('r.pickUpTime >= :pickUpTime')
-            // ->setParameter('pickUpTime', $time_now->format('H:i:s') )
-            ->orderBy('r.pickUpTime', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+            ->orderBy('r.pickUpTime', 'ASC');
     }
-
 
     private function germanTimeToDate( string $gdate ){
         // 03.05.2019

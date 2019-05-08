@@ -6,28 +6,19 @@
         <link href="{{ asset('css/jquery-ui.min.css') }}" rel="stylesheet">
     {% endblock %}
  {% block mainContent %}
+
+     {% if is_submitted == true %}
+         <div class="text-info font-weight-bold mb-1"> {% if ridesCount > 0 %}
+                 <span class="mr-1">{{ ridesCount }} Fahrten von {{ rides[0].pickUp }}  Nach {{ rides[0].dropOff }}</span> <span>|</span>  <span class="ml-3">Datum: {{ rides[0].pickUpDate | date('d.m') }}</span>
+             {% else %}
+                    Keine Fahrten verfügbar
+               {% endif %}
+        </div>
+     {% endif %}
+     <div id="display_rides">
      {% if rides is not empty %}
-         <div> {{ rides | length }} Fahrten von Berlin nach Hamburg verfügbar </div>
          {% for ride in rides %}
              <a href="{{ path('ride_search_details',{ 'id':ride.id } ) }}" class="alert alert-dark btn btn-block font-weight-bold text-primary" role="alert">
-                 <div class="user_details clearfix">
-                    <div class="float-left">
-                        <span>{{ ride.price }} €</span>
-                    </div>
-                     <div class="float-right">
-                         <div class="clearfix">
-                             <div class="align-middle mr-3 float-left mt-2">{{ ride.user.firstName }}</div>
-
-                             {% if ride.user.photo is empty %}
-                             <img src="/media/images/50.png" width="50" height="50"
-                                  class="rounded-circle float-right" alt="person name {{ ride.user.firstName }}">
-                                 {% else %}
-                                     <img src="/media/images/{{ ride.user.photo}}" width="50" height="50"
-                                          class="rounded-circle float-right" alt="person name {{ ride.user.firstName }}">
-                             {% endif %}
-                         </div>
-                     </div>
-                 </div>
                  <div class="ride_details clearfix">
                      <div><i class="fas fa-running"></i> X {{ ride.passengers }}</div>
                      <div class="row mx-auto">
@@ -56,14 +47,43 @@
                          </div>
                      </div>
                  </div>
+                 <hr>
+                 <div class="user_details clearfix">
+                     <div class="float-left mt-2">
+                         <span>{{ ride.price }} €</span>
+                     </div>
+                     <div class="float-right">
+                         <div class="clearfix">
+                             <div class="align-middle mr-3 float-left mt-2">{{ ride.user.firstName }}</div>
 
+                             {% if ride.user.photo is empty %}
+                                 <img src="/media/images/50.png" width="50" height="50"
+                                      class="rounded-circle float-right" alt="person name {{ ride.user.firstName }}">
+                             {% else %}
+                                 <img src="/media/images/{{ ride.user.photo}}" width="50" height="50"
+                                      class="rounded-circle float-right" alt="person name {{ ride.user.firstName }}">
+                             {% endif %}
+                         </div>
+                     </div>
+                 </div>
 
              </a>
          {% else %}
-             <tr>
-                 <td colspan="3">Kein Auto in der Liste gefunden</td>
-             </tr>
+             <div>
+                 <span colspan="3">Kein Auto in der Liste gefunden</span>
+             </div>
          {% endfor %}
+         {% if rides|length > 9 %}
+             <div id="scroll-search" class="d-none">
+                 <form id="scroll-search-form" class="d-none">
+                     <input type="hidden" id="_pick_up_date" value="{{ rides[0].pickUpDate | date('d.m.Y') }}">
+                     <input type="hidden" id="_pick_up" value="{{ rides[0].pickUp }}">
+                     <input type="hidden" id="_drop_off" value="{{ rides[0].dropOff }}">
+                 </form>
+             </div>
+         {% endif %}
+
+         </div>
          {% else %}
              {% include "main/_search_ride_form.html.twig" %}
      {% endif %}
@@ -78,6 +98,49 @@
             setDatePicker( 'search_ride_pickUpDate' );
             setDefaultDate( 'search_ride_pickUpDate' );
             autoCompleteSearchForm( ['search_ride_pickUp','search_ride_dropOff'] );
+            scrollSearch();
         } );
+
+        function scrollSearch(){
+            if ( $( "#scroll-search" ).length ) {
+                $(window).scroll(function () {
+                    if ($(window).scrollTop() >= $(document).height() - $(window).height() - 200) {
+                        loadRide();
+                    }
+                });
+            }
+
+        }
+
+        var next = 0;
+        var holdload = true;
+
+        function loadRide() {
+
+            var fdata ={
+                _pick_up_date: $('#_pick_up_date').val(),
+                _pick_up: $('#_pick_up').val(),
+                _drop_off: $('#_drop_off').val(),
+                _next: next
+            };
+
+            if ( holdload ) {
+                $.ajax({
+                    url: "/search/ride/scroll"
+                    , type: "POST"
+                    , data: {_scroll_search:fdata}
+                    , dataType: "json"
+                    , success: function (data) {
+                        if( data.ride ){
+                            $('#display_rides').append( data.ride );
+                            next+=1;
+                            holdload = true;
+                        }
+                    }
+                });
+                holdload = false;
+             }
+
+        }
     </script>
 {% endblock %}

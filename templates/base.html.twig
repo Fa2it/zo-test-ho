@@ -6,6 +6,12 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+
+    <footer class="footer">
+        <div class="container" style="background-color:#576b95">
+            {% include "components/footer/my.footer.html.twig" %}
+        </div>
+    </footer>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

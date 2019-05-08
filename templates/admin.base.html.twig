@@ -27,8 +27,15 @@
 
         </div>
     </div>
-    {% include "components/footer/my.footer.html.twig" %}
+
 </div>
+<footer class="fixed-bottom">
+    <div class="container">
+        <div class="row mb-1 mt-3" >
+            {% include "components/footer/my.footer.html.twig" %}
+        </div>
+    </div>
+</footer>
 {% block footer %}{% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}" ></script>

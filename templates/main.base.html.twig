@@ -17,20 +17,42 @@
         <div class="col-sm-12 col-md-9 col-lg-8" style="background-color:#576b95;height:10px"></div>
     </div>
     <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-6 offset-md-2" id="mainContent">
+        <div class="col-sm-9 col-md-7 col-lg-6 offset-md-2" id="mainContent" style="margin-bottom: 100px">
             <div class="alert alert-secondary" role="alert">
                 {% block mainContent %}{% endblock %}
             </div>
 
         </div>
     </div>
-    {% include "components/footer/my.footer.html.twig" %}
 </div>
+<footer class="fixed-bottom">
+    <div class="container">
+        <div class="row mb-1 mt-3" >
+            {% include "components/footer/my.footer.html.twig" %}
+        </div>
+    </div>
+</footer>
 {% block footer %}{% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}" ></script>
     <script src="{{ asset('js/popper.min.js') }}" ></script>
     <script src="{{ asset('js/bootstrap.min.js') }}" ></script>
+    <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));</script>
 {% endblock %}
 </body>
 </html>
