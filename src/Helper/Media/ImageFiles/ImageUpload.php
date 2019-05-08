@@ -57,9 +57,9 @@ class ImageUpload
                 }
                 return $imageFile->imageUpload($img_res, $this->getImageUploadDir() . $this->getFileName() );
             }
-            return $error_msg['ERROR'][ 'NO_FILE_TYPE_FOUND'];
+            return $error_msg['ERROR']= 'NO FILE TYPE FOUND';
         }
-        $error_msg['ERROR'][ 'MAX_SIZE_EXCEEDED'] = ["image_size" =>$uploadedFile->getSize(), "Max_size"=> $this->getMaxImageSize() ];
+        $error_msg['ERROR'] = 'MAX IMAGE SIZE EXCEEDED';
         return $error_msg;
 
     }

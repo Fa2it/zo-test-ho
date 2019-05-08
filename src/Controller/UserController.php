@@ -159,25 +159,29 @@ class UserController extends AbstractController
      */
     public function photo(Request $request,ImageUpload $imageUpload ): Response
     {
-
+        $img_upload_errors =[];
         if ($this->isCsrfTokenValid('_photo', $request->request->get('_token'))) {
             $user = $this->security->getUser();
             $imageUpload->setImageUploadDir('images/');
             $up_file_names =  $imageUpload->upload( $request->files->get('profilePhoto') );
+            dump( $up_file_names[0]); die;
+            if( ! in_array('ERROR', $up_file_names)){
+                //dump($up_file_names ); die;
+                $imageUpload->setResizeValue(300);
+                $imageUpload->setFileName($up_file_names[0]);
+                $imageUpload->setImageUploadDir('thumbnail/');
+                $r_upfilenames =  $imageUpload->upload( $request->files->get('profilePhoto') );
 
-            //dump($up_file_names ); die;
-            $imageUpload->setResizeValue(300);
-            $imageUpload->setFileName($up_file_names[0]);
-            $imageUpload->setImageUploadDir('thumbnail/');
-            $r_upfilenames =  $imageUpload->upload( $request->files->get('profilePhoto') );
-            $user->setPhoto($r_upfilenames[0]);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->flush();
-            return $this->redirectToRoute('my_user_index');
+                $user->setPhoto($r_upfilenames[0]);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+                return $this->redirectToRoute('my_user_index');
+            }
+            $img_upload_errors = $up_file_names[0]['ERROR'];
 
         }
 
-        return $this->render('user/my/photo.html.twig' );
+        return $this->render('user/my/photo.html.twig',['img_upload_errors'=>$img_upload_errors] );
 
     }
 
