@@ -101,6 +101,12 @@ class User implements UserInterface
      */
     private $address;
 
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $ipAddress;
+
+
     public function __construct()
     {
         $this->cars = new ArrayCollection();
@@ -387,6 +393,18 @@ class User implements UserInterface
         if ($this !== $address->getUser()) {
             $address->setUser($this);
         }
+
+        return $this;
+    }
+
+    public function getIpAddress(): ?string
+    {
+        return $this->ipAddress;
+    }
+
+    public function setIpAddress(string $ipAddress): self
+    {
+        $this->ipAddress = $ipAddress;
 
         return $this;
     }

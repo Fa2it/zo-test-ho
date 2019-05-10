@@ -21,6 +21,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EmailRegistration $eR ): Response
     {
         $user = new User();
+
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -37,7 +38,7 @@ class RegistrationController extends AbstractController
             $act_code->setEmailCode( ( new CodeGenerator() )->random_string($str, 40 ) );
             $act_code->setPhoneCode( 'XXXXX' );
             $user->setActCode($act_code);
-
+            $user->setIpAddress($request->getClientIp() );
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
