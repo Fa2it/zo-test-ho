@@ -1,13 +1,20 @@
- <h1>Registrieren</h1>
-     <h3>Hallo  {{ name }} ! Du hast es geschafft!</h3>
+<div style="padding:10px;">
+    <h1>Registrieren</h1>
+    <h3>Hallo  {{ name }} ! Du hast es geschafft!</h3>
 
-     <p>Du bist erfolgreich registriert.</p>
+    <p>Du bist erfolgreich registriert.</p>
 
-     {# example, assuming you have a route named "login" #}
+    {# example, assuming you have a route named "login" #}
     <p>Klicken Sie auf den Link,: <a href="{{ url('app_activating',{emailCode:emailCode}) }}">um Ihr Konto zu aktivieren</a>.</p>
 
-     Danke!
-    {# Makes an absolute URL to the /images/logo.png file
-     <img src="{{ absolute_url(asset('images/logo.png')) }}">
-     #}
+    Danke!
+   <hr>
+    <p>
+        <div style="display: block; font-weight: bolder">Unsubscribe from the list</div>
+        Um sich abzumelden,<a href="{{ url('app_register_unsubscribe', {sbCode:sbCode}) }}"  >Bitte klicken Sie hier</a>  Die Abmeldung ist kostenfrei.
+    </p>
+   <p>
+       Danke! Zooya Team
+   </p>
+</div>
 

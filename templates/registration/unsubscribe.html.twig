@@ -1,0 +1,18 @@
+{% extends 'main.base.html.twig' %}
+
+{% block title %}Registrieren!{% endblock %}
+
+ {% block mainContent %}
+    <div style="padding: 10px">
+        {%  if unsubscribe  == false %}
+            <p class="font-weight-bold text-danger">
+                Diese E-Mail wird in unserem System nicht mehr gefunden
+            </p>
+            {% else %}
+                <p class="font-weight-bold text-danger">
+                    Diese E-Mail wurde aus unserem System entfernt
+                </p>
+        {% endif %}
+    </div>
+ {% endblock %}
+

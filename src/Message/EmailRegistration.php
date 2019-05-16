@@ -10,25 +10,28 @@ namespace App\Message;
 
 
 use App\Entity\User;
+use App\Helper\CodeGenerator\CodeGenerator;
 
 class EmailRegistration
 {
     private $mailer;
     private $templating;
+    private $cg;
 
 
-    public function __construct(\Swift_Mailer  $mailer,  \Twig\Environment $templating)
+    public function __construct(\Swift_Mailer  $mailer,  \Twig\Environment $templating, CodeGenerator $cg)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->cg = $cg;
     }
 
-    public function send(User $user){
+    public function send(User $user ){
         /*@var ActCode $actcode */
         $act_code = $user->getActCode();
 
         $message = (new \Swift_Message('Zooya Aktivierung'))
-            ->setFrom('info@zooya.com')
+            ->setFrom('info@zooya.de')
             ->setTo($user->getEmail())
             ->setBody(
                 $this->templating->render(
@@ -37,6 +40,7 @@ class EmailRegistration
                     [
                         'name' => $user->getFirstName(),
                         'emailCode' => $act_code->getEmailCode(),
+                        'sbCode' => $this->cg->emailEncode( $user->getEmail() ),
                     ]
                 ),
                 'text/html'
@@ -59,7 +63,7 @@ class EmailRegistration
     public function sendPassword(User $user, $password, $pwdCode_in ){
 
         $message = (new \Swift_Message('Zooya Neu Password'))
-            ->setFrom('info@zooya.com')
+            ->setFrom('info@zooya.de')
             ->setTo($user->getEmail())
             ->setBody(
                 $this->templating->render(
@@ -69,6 +73,7 @@ class EmailRegistration
                         'user' => $user,
                         'NeuPassword' => $password,
                         'pwdCode'=>$pwdCode_in,
+                        'sbCode' => $this->cg->emailEncode( $user->getEmail() ),
                     ]
                 ),
                 'text/html'

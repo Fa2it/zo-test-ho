@@ -6,7 +6,7 @@
     <h1 style="font-size: 1rem;font-weight: bolder">Benutzer -> Photo bearbeiten</h1>
     <div class="card" {% if app.user.getPhoto() %}style="width: 12rem;" {% endif %}>
         <div class="card-body">
-            <div class="text-danger font-weight-bold p-2 m-2"> {{ img_upload_errors }} </div>
+            <div class="text-danger font-weight-bold p-2 m-2"> {{ img_upload_errors |join(' | ') }} </div>
             {% if app.user.photo %}
                 <img src="/media/thumbnail/{{  app.user.getPhoto() }}"  class="card-img" alt="user foto">
                 <form method="post" action="{{ path('my_user_photo_delete') }}" enctype="multipart/form-data">

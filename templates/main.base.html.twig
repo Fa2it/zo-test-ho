@@ -25,7 +25,7 @@
         </div>
     </div>
 </div>
-<footer class="fixed-bottom">
+<footer id="zooya-footer" class="fixed-bottom">
     <div class="container">
         <div class="row mb-1 mt-3" >
             {% include "components/footer/my.footer.html.twig" %}
@@ -37,7 +37,8 @@
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}" ></script>
     <script src="{{ asset('js/popper.min.js') }}" ></script>
     <script src="{{ asset('js/bootstrap.min.js') }}" ></script>
-    <script>window.twttr = (function(d, s, id) {
+    <script>
+        window.twttr = (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0],
                 t = window.twttr || {};
             if (d.getElementById(id)) return t;
@@ -52,7 +53,13 @@
             };
 
             return t;
-        }(document, "script", "twitter-wjs"));</script>
+        }(document, "script", "twitter-wjs"));
+
+        $(function() {
+            let marginbottom = $('#zooya-footer').height();
+            $('#mainContent').css("margin-bottom", marginbottom);
+        });
+    </script>
 {% endblock %}
 </body>
 </html>

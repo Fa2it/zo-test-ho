@@ -27,4 +27,19 @@ class CodeGenerator
 
          return $random_string;
      }
+
+
+
+     public function emailEncode( string $email ):string
+     {
+         return base64_encode ( $this->random_string().base64_encode ( base64_encode ( trim( $email ) ) ).$this->random_string() );
+     }
+
+
+    public function emailDecode( string $en_str ):string
+    {
+        return base64_decode( base64_decode( substr( substr( base64_decode ( trim( $en_str ) ), 0, -5 ), 5 )  ) );
+    }
+
+
 }

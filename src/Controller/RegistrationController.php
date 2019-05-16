@@ -7,6 +7,8 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Helper\CodeGenerator\CodeGenerator;
 use App\Message\EmailRegistration;
+use App\Repository\PwdCodeRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,11 +57,37 @@ class RegistrationController extends AbstractController
     }
 
 
+    /**
+     * @Route("/register/unsubscribe/{sbCode}", name="app_register_unsubscribe")
+     */
+
+    public function register_unsubscribe( $sbCode, CodeGenerator $cg, UserRepository $uR , PwdCodeRepository $pcR){
+         $unsubscribe = false;
+         $user = $uR->findOneBy( ['email'=>$cg->emailDecode( $sbCode ) ] );
+         if( $user ){
+             $entityManager = $this->getDoctrine()->getManager();
+             $pcRs = $pcR->findBy(['email'=>$cg->emailDecode( $sbCode ) ]);
+             $pcRsCount = count($pcRs);
+             if( $pcRsCount ){
+                 for( $i = 0; $i< $pcRsCount; $i++ ){
+                     $entityManager->remove($pcRs[$i]);
+                 }
+             }
+             $entityManager->remove($user);
+             $entityManager->flush();
+             $unsubscribe = true;
+         }
+        return $this->render('registration/unsubscribe.html.twig', [
+            'unsubscribe' => $unsubscribe,
+        ]);
+    }
+
     /*
      * @Route("/register/successful", name="app_register_success")
-     */
+    */
 
     public function register_success(){
 
     }
+
 }

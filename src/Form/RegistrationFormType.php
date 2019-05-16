@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
+use Captcha\Bundle\CaptchaBundle\Form\Type\CaptchaType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -19,7 +20,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('sex', ChoiceType::class,[
-                'choices'=>['W'=>'W', 'M'=>'M','X'=>'X'],
+                'choices'=>['W'=>'W', 'M'=>'M'],
                 'expanded' => true,
                 'attr' => ['class' => 'form-check-inline'],
             ])
@@ -47,6 +48,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('captchaCode', CaptchaType::class, [
+                    'captchaConfig' => 'ExampleCaptcha'
+            ]
+            )
         ;
     }
 

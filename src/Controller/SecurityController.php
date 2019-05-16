@@ -82,7 +82,6 @@ class SecurityController extends AbstractController
                 $result = 'email not found';
             }
 
-
         }
 
         return $this->render('security/pwd.new.html.twig',[
@@ -97,7 +96,7 @@ class SecurityController extends AbstractController
     {
 
         $user = $uR->findOneBy( ['email'=> $pwdCode->getEmail() ] );
-        $pwd_sucess = false;
+        $pwd_success = false;
         $form = $this->createForm(MyUserPwdType::class, $user );
         $form->handleRequest($request);
 
@@ -110,12 +109,12 @@ class SecurityController extends AbstractController
                 $entityManager->remove($user_service);
             }
             $entityManager->flush();
-            $pwd_sucess = true;
+            $pwd_success = true;
         }
 
         return $this->render('security/pwd.reset.html.twig',[
             'form'=> $form->createView(),
-            'pwd_sucess'=>  $pwd_sucess
+            'pwd_sucess'=>  $pwd_success
         ]);
 
     }
@@ -131,7 +130,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/sucess", name="app_activate_sucess")
+     * @Route("/success", name="app_activate_sucess")
      */
     public function successful_password(): Response
     {

@@ -2,6 +2,12 @@
     "behat/transliterator": {
         "version": "v1.2.0"
     },
+    "captcha-com/captcha": {
+        "version": "4.2.4"
+    },
+    "captcha-com/symfony-captcha-bundle": {
+        "version": "4.2.11"
+    },
     "composer/ca-bundle": {
         "version": "1.1.4"
     },
