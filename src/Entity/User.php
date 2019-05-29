@@ -12,7 +12,7 @@ use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ *
  */
 class User implements UserInterface
 {
@@ -108,11 +108,9 @@ class User implements UserInterface
     private $ipAddress;
 
     /**
-     * @CaptchaAssert\ValidCaptcha(
-     *      message = "CAPTCHA validation failed, try again."
-     * )
+     * @ORM\Column(type="boolean")
      */
-    protected $captchaCode;
+    private $terms;
 
     public function __construct()
     {
@@ -415,13 +413,16 @@ class User implements UserInterface
 
         return $this;
     }
-    public function getCaptchaCode()
+
+    public function getTerms(): ?bool
     {
-        return $this->captchaCode;
+        return $this->terms;
     }
 
-    public function setCaptchaCode($captchaCode)
+    public function setTerms(bool $terms): self
     {
-        $this->captchaCode = $captchaCode;
+        $this->terms = $terms;
+
+        return $this;
     }
 }

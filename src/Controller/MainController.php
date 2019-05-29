@@ -97,4 +97,28 @@ class MainController extends AbstractController
     {
         return $this->json( $g->findOrtLike( $q ) );
     }
+
+    /**
+     * @Route("/quick/search/von/{von}/nach/{nach}", name="app_quick_search" , methods={"GET"})
+     */
+    public function quick_search(RideRepository $rideR, $von ="", $nach="" )
+    {
+        $rides = [];
+        $submitted = false;
+        $ridesCount = 0;
+        if ( $von && $nach  ) {
+            $submitted = true;
+            $rides = $rideR->findByQuickSearch( $von, $nach );
+            $ridesCount = $rideR->findByQuickSearchCount($von, $nach);
+        }
+
+        return $this->render('main/index.html.twig', [
+            'rides' => $rides,
+            'ridesCount'=>$ridesCount,
+            'is_submitted' =>$submitted,
+        ]);
+    }
+
+
+
 }

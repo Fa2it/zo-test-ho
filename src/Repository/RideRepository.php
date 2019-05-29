@@ -33,10 +33,6 @@ class RideRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return Ride[] Returns an array of Ride objects
-     */
-
     public function findBySearchCount( array $value)
     {
         // dump( $time_now->format('H:i:s') ); die;
@@ -59,13 +55,25 @@ class RideRepository extends ServiceEntityRepository
     }
 
     private function searchQB( array $value){
+
+
+        $today =  new \DateTime( date('Y/m/d') );
+        $ride_time = '00:00:00';
+        $pick_up_date = $this->germanTimeToDate( $value['pickUpDate'] );
+        if( $today ==  $pick_up_date ){
+            $ride_time = ( new \DateTime( date('H.i') ) )->format('H:i:s');
+        }
+
         return $this->createQueryBuilder('r')
             ->andWhere('r.pickUp = :pickUp')
             ->setParameter('pickUp', $value['pickUp'])
             ->andWhere('r.dropOff = :dropOff')
             ->setParameter('dropOff', $value['dropOff'])
             ->andWhere('r.pickUpDate = :pickUpDate')
-            ->setParameter('pickUpDate', $this->germanTimeToDate( $value['pickUpDate'] ) )
+            ->setParameter('pickUpDate', $pick_up_date )
+            ->andWhere('r.pickUpTime BETWEEN :from AND :to' )
+            ->setParameter('from',$ride_time )
+            ->setParameter('to', '23:59:00')
             ->orderBy('r.pickUpTime', 'ASC');
     }
 
@@ -78,7 +86,48 @@ class RideRepository extends ServiceEntityRepository
         return null;
     }
 
+    /**
+     * @return Ride[] Returns an array of Ride objects
+     */
 
+     public function findByQuickSearch($p, $d){
+
+            return $this->searchQQB( $p, $d )
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult()
+            ;
+
+
+     }
+
+     public function findByQuickSearchCount($p, $d){
+         return $this->searchQQB( $p, $d )
+             ->select('count(r.id)')
+             ->getQuery()
+             ->getSingleScalarResult()
+             ;
+     }
+
+
+    private function searchQQB( $p, $d ){
+
+        $ride_date = new \DateTime( date('Y-m-d'));
+        $ride_time = ( new \DateTime( date('H.i')) )->format('H:i:s');
+
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.pickUp = :pickUp')
+            ->setParameter('pickUp', $p )
+            ->andWhere('r.dropOff = :dropOff')
+            ->setParameter('dropOff', $d )
+            ->andWhere('r.pickUpDate = :pickUpDate')
+            ->setParameter('pickUpDate', $ride_date )
+            ->andWhere('r.pickUpTime BETWEEN :from AND :to' )
+            ->setParameter('from',$ride_time )
+            ->setParameter('to', '23:59:00')
+            ->orderBy('r.pickUpTime', 'ASC')
+             ;
+    }
 
     // /**
     //  * @return Ride[] Returns an array of Ride objects
@@ -108,6 +157,5 @@ class RideRepository extends ServiceEntityRepository
         ;
     }
     */
-
 
 }

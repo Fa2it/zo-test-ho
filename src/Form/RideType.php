@@ -33,8 +33,7 @@ class RideType extends AbstractType
             ->add('price')
             ->add('passengers', ChoiceType::class,[
                 'placeholder' => 'Reisende ....',
-                'choices'=>[ 1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6
-                ],
+                'choices'=>[ 1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6 ],
                 ])
             ->add('pickUpDate', DateType::class,[
                 'widget' => 'single_text',
@@ -48,7 +47,9 @@ class RideType extends AbstractType
 
             ])
             ->add('dropOffTime', TimeType::class)
-            //->add('user')
+            ->add('displayProperty',ChoiceType::class,[
+                'choices'=>['Nur per E-Mail'=>2, 'Nur per Handy'=>4, 'Bides'=>6 ]
+            ])
             ->add('description')
         ;
     }

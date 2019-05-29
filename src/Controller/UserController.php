@@ -45,12 +45,15 @@ class UserController extends AbstractController
      */
     public function profile_show(Request $request): Response
     {
-
+        /*
+         * @var User $user
+         */
         $user = $this->security->getUser();
         $form = $this->createForm(MyUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('my_user_index' );
@@ -94,7 +97,7 @@ class UserController extends AbstractController
         $emailForm->handleRequest($request);
         $phoneForm->handleRequest($request);
 
-        if ($emailForm->isSubmitted() && $emailForm->isValid()) {
+        if ($emailForm->isSubmitted() && $emailForm->isValid() ) {
             $user->setIsEmail( 0 );
             $act_code = $user->getActCode();
             $act_code->setEmailCode( ( new CodeGenerator() )->random_string('', 13 ) );
@@ -117,7 +120,7 @@ class UserController extends AbstractController
         }
 
 
-        if ($phoneForm->isSubmitted() && $phoneForm->isValid()) {
+        if ($phoneForm->isSubmitted() && $phoneForm->isValid() ) {
             $user->setIsPhone(0);
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('my_user_verify' );

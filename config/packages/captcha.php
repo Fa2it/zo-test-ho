@@ -11,10 +11,12 @@
 
 return [
     // Captcha configuration for example page
-    'ExampleCaptcha' => [
+    'RegistrationCaptcha' => [
         'UserInputID' => 'captchaCode',
         'ImageWidth' => 250,
         'ImageHeight' => 50,
     ],
+    'updateCaptcha' => [],
+    '' => []
 
 ];

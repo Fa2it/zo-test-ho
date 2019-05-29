@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}Welcome! {% endblock %}</title>
+    {% include "components/header/meta.head.html.twig" %}
+    <title>{% block title %} Mitfahrgelegenheit? Zooya! Deutschland größte kostenlos Mitfahrzentrale{% endblock %}</title>
     {% block stylesheets %}
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/all.min.css') }}" rel="stylesheet">
@@ -46,6 +45,19 @@
         $(function() {
             let marginbottom = $('#zooya-footer').height();
             $('#mainContent').css("margin-bottom", marginbottom);
+            if( window.innerWidth <= 800 ) {
+                var _originalSize = $(window).width() + $(window).height();
+                $(window).resize(function() {
+                    if ($(window).width() + $(window).height() != _originalSize) {
+                        // console.log("keyboard active");
+                        $('#zooya-footer').fadeOut( "slow" );
+                    } else {
+                        // console.log("keyboard closed");
+                        $('#zooya-footer').fadeIn("slow");
+                    }
+                });
+            }
+
         });
     </script>
 {% endblock %}

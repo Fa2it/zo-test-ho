@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\ContactAdmin;
+use App\Form\ContactAdminType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AboutController extends AbstractController
@@ -12,37 +15,46 @@ class AboutController extends AbstractController
      */
     public function index()
     {
-        return $this->render('about/index.html.twig', [
-            'controller_name' => 'AboutController',
-        ]);
+        return $this->render('about/about.us.html.twig');
     }
 
     /**
-     * @Route("/contact", name="contact_us")
+     * @Route("/contact", name="about_contact_us")
      */
-    public function contact()
+    public function contact(Request $request)
     {
-        return $this->render('about/index.html.twig', [
-            'controller_name' => 'AboutController',
+
+        $contactAdmin = new ContactAdmin();
+        $is_posted = false;
+        $form = $this->createForm(ContactAdminType::class, $contactAdmin);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($contactAdmin);
+            $entityManager->flush();
+            $is_posted = true;
+        }
+        return $this->render('about/contact.us.html.twig', [
+            'contact_admin' => $contactAdmin,
+            'is_posted'=>$is_posted,
+            'form' => $form->createView(),
+
         ]);
     }
     /**
-     * @Route("/terms", name="terms_condition")
+     * @Route("/terms", name="about_terms_condition")
      */
     public function terms()
     {
-        return $this->render('about/index.html.twig', [
-            'controller_name' => 'AboutController',
-        ]);
+        return $this->render('about/terms.html.twig');
     }
 
     /**
-     * @Route("/how-does-it-works", name="how_does_it_works")
+     * @Route("/how-it-works", name="about_how_it_works")
      */
-    public function how_works()
+    public function how_it_works()
     {
-        return $this->render('about/index.html.twig', [
-            'controller_name' => 'AboutController',
-        ]);
+        return $this->render('about/how.it.works.html.twig');
     }
 }

@@ -75,6 +75,13 @@ class RegistrationController extends AbstractController
              }
              $entityManager->remove($user);
              $entityManager->flush();
+             $this->get('security.token_storage')->setToken(null);
+             $this->get('session')->invalidate();
+
+             /* delete remeber me cookie */
+             $response = new Response();
+             $response->headers->clearCookie('REMEMBERME');
+             $response->send();
              $unsubscribe = true;
          }
         return $this->render('registration/unsubscribe.html.twig', [

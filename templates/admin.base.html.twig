@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}Welcome! {% endblock %}</title>
+    {% include "components/header/meta.head.html.twig" %}
+    <title>{% block title %} Mitfahrgelegenheit? Zooya! Deutschland größte kostenlos Mitfahrzentrale{% endblock %}</title>
     {% block stylesheets %}
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/all.min.css') }}" rel="stylesheet">
@@ -46,6 +45,17 @@
         $(function() {
             let marginbottom = $('#zooya-footer').height();
             $('#mainContent').css("margin-bottom", marginbottom);
+            if(window.innerWidth <= 800) {
+                //hide footer when input box is on focus
+                $(document).on('focus', 'input, textarea', function() {
+                    $('#zooya-footer').hide();
+                });
+                //show footer when input is NOT on focus
+                $(document).on('blur', 'input, textarea', function() {
+                    $('#zooya-footer').show();
+                });
+            }
+
         });
     </script>
 {% endblock %}

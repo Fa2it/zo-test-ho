@@ -1,4 +1,4 @@
-{% extends 'my.base.html.twig' %}
+{% extends 'main.base.html.twig' %}
 
 {% block title %} Welcome !{% endblock %}
     {% block stylesheets %}
@@ -9,7 +9,6 @@
      {% if ride is not empty %}
          <div id="user_ride_details">
              <div class="ride_details mb-3 clearfix">
-                 <div class="text-center"><i class="fas fa-running"></i> X {{ ride.passengers }}</div>
                  <div class="row mx-auto">
                      <div class="col p-0">
                          <div style="border-right: 2px solid #c6c8ca; padding-right: 4px">
@@ -36,7 +35,19 @@
                      </div>
                  </div>
              </div>
+             {% if ride.car.image is not empty %}
+                 <div id="user_car_details" class="mt-2">
+                     <div class="text-info font-weight-bold"> {{ ride.car.brand }}  {{ ride.car.model }}</div>
+                     <img src="/media/car_images/{{ ride.car.image }}" style="max-height: 300px; max-width: 300px" >
 
+                 </div>
+             {% endif %}
+             <div class="font-weight-bold"><i class="fas fa-running"></i> Plätze Freie X {{ ride.passengers }}</div>
+             <div class="text-dark mt-1 mb-1">Max Platz auf der Rückbank {{ ride.car.maxPassangers }}</div>
+             <div class="text-dark mt-1 mb-3">
+                 <span>Bescribung</span><br>
+                 {{ ride.description ? ride.description : '' }}
+             </div>
              <div class="card mb-3" style="max-width: 540px; font-size: 0.8rem">
                  <div class="row no-gutters">
                      <div class="col-md-4">
@@ -48,47 +59,46 @@
 
                      </div>
                      <div class="col-md-8">
-                         <div class="card-body">
+                         <div class="card-body p-0 pl-2">
                              <table class="table table-sm table-bordered" style="font-size: 0.8rem">
                                  <tbody>
                                  <tr>
                                      <th style="width:20%">Sex</th>
-                                     <td>{{ ride.user.sex }}</td>
+                                     <td>{{ ride.user.sex }} - {{ ride.user.age ? ride.user.age : '' }} </td>
                                  </tr>
                                  <tr>
                                      <th style="width:20%">Vorname</th>
                                      <td>{{ ride.user.firstName }}</td>
                                  </tr>
-                                 <tr>
-                                     <th>Nachname</th>
-                                     <td>{{ ride.user.lastName }}</td>
-                                 </tr>
-                                 <tr>
-                                     <th>Handy Nr</th>
-                                     <td>{{ ride.user.phoneNr }}</td>
-                                 </tr>
-                                 <tr>
-                                     <th>Email</th>
-                                     <td>{{ ride.user.email }}</td>
-                                 </tr>
-                                 <tr>
-                                     <th>Alter</th>
-                                     <td>{{ ride.user.age ? ride.user.age : '' }}</td>
-                                 </tr>
+                                 {%  if ride.displayProperty == 2 %}
+                                     <tr>
+                                         <th>Email</th>
+                                         <td>{{ ride.user.email }}</td>
+                                     </tr>
+                                 {% endif %}
+                                 {%  if ride.displayProperty == 4 %}
+                                     <tr>
+                                         <th>Handy</th>
+                                         <td>{{ ride.user.phoneNr }}</td>
+                                     </tr>
+                                 {% endif %}
+                                 {%  if ride.displayProperty == 6 %}
+                                     <tr>
+                                         <th>Handy</th>
+                                         <td>{{ ride.user.phoneNr }}</td>
+                                     </tr>
+                                     <tr>
+                                         <th>Email</th>
+                                         <td>{{ ride.user.email }}</td>
+                                     </tr>
+                                 {% endif %}
+
                                  </tbody>
                              </table>
                          </div>
                      </div>
                  </div>
              </div>
-            {% if ride.car.image is not empty %}
-             <div id="user_car_details" class="mt-2">
-                <div class="text-info font-weight-bold"> {{ ride.car.brand }}  {{ ride.car.model }}</div>
-                 <img src="/media/car_images/{{ ride.car.image }}" style="max-height: 300px; max-width: 300px" >
-
-             </div>
-                {% endif %}
-             <div class="text-dark mt-1 mb-3 font-weight-bold">Max Platz auf der Rückbank {{ ride.car.maxPassangers }}</div>
          </div>
      {% endif %}
 {% endblock %}

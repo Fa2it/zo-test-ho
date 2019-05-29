@@ -1,4 +1,7 @@
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
+<div class="mt-2 mb-2 clearfix">
+    <a class="btn btn-success float-right" href="{{ path('about_how_it_works') }}"><i class="fas fa-cogs"></i> How it works </a>
+</div>
 {% if form is not empty %}
 {{ form_start(form, {'method': 'GET'}) }}
     <div class="form-group">
@@ -25,6 +28,11 @@
             {{ form_widget(form.pickUpDate) }}
         </div>
     </div>
-    <button type="submit" class="btn btn-info" ><i class="fas fa-search"></i> Suche</button>
+    <button id="search-button" type="submit" class="btn btn-info" ><i class="fas fa-search"></i> Suche</button>
 {{ form_end(form) }}
 {% endif %}
+
+<div class="mt-5">
+    <h3 class="text-dark font-italic" style="font-size: .9rem;font-weight: 600;">Schnelle Suche</h3>
+    <a href="{{ path('app_quick_search',{von:'Hamburg', nach:'Berlin'}) }}"><span class="badge badge-secondary pb-1">Hamburg --> Berlin </span></a>
+</div>

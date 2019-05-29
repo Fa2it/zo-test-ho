@@ -5,6 +5,7 @@
  {% block mainContent %}
      <h1 class="h3 mb-3 font-weight-bold">Registrieren</h1>
      {% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
+
      {{ form_start(registrationForm, {'attr': {class: 'w-75 mx-auto'}} ) }}
      {{ form_row(registrationForm.sex, { 'label': 'Geschlecht' }) }}
 
@@ -14,8 +15,11 @@
      {{ form_row(registrationForm.phoneNr, { 'label': 'Handy-Nr','attr':{'placeholder': 'z.B 015651439876'} }) }}
      {{ form_row(registrationForm.email) }}
      {{ form_row(registrationForm.password) }}
-     {{ form_row(registrationForm.captchaCode) }}
-     <button class="btn btn-success">Anmeldung</button>
+     <div style="font-size: 0.8rem">
+         {{ form_widget(registrationForm.terms) }}
+         <a href="{{ path('about_terms_condition') }}">Bitte akzeptieren Sie noch die AGB und Nutzungsbedingungen</a>
+     </div>
+     <button class="btn mt-3 btn-success">Anmeldung</button>
      {{ form_end(registrationForm) }}
  {% endblock %}
 

@@ -8,6 +8,7 @@ use App\Form\RideType;
 use App\Repository\CarRepository;
 use App\Repository\RideRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Exception\ExceptionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,6 +35,7 @@ class RideController extends AbstractController
         $ride->setUser( $user );
         $car_data = ['car_data'=>$carRepository->findBy( ['user'=>$user] ) ];
         $form = $this->createForm(RideType::class, $ride, $car_data );
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

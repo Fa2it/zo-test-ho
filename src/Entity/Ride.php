@@ -48,6 +48,7 @@ class Ride
 
     /**
      * @ORM\Column(type="time")
+     *
      */
     private $pickUpTime;
 
@@ -89,6 +90,11 @@ class Ride
      */
     private $price;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $displayProperty;
+
 
     public function getId(): ?int
     {
@@ -114,7 +120,7 @@ class Ride
 
     public function setPickUp(string $pickUp): self
     {
-        $this->pickUp = $pickUp;
+        $this->pickUp = ucfirst( $pickUp );
 
         return $this;
     }
@@ -126,7 +132,7 @@ class Ride
 
     public function setDropOff(string $dropOff): self
     {
-        $this->dropOff = $dropOff;
+        $this->dropOff = ucfirst( $dropOff );
 
         return $this;
     }
@@ -223,6 +229,18 @@ class Ride
     public function setPrice(int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getDisplayProperty(): ?int
+    {
+        return $this->displayProperty;
+    }
+
+    public function setDisplayProperty(int $displayProperty): self
+    {
+        $this->displayProperty = $displayProperty;
 
         return $this;
     }

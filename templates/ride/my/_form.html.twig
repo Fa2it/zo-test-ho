@@ -47,7 +47,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
                     </div>
-                    {{ form_widget(form.pickUpDate) }}
+                    {{ form_widget(form.pickUpDate,{'attr': {'placeholder':'dd.mm.yyyy'}}) }}
                 </div>
             </div>
             <div class="form-group date">
@@ -67,7 +67,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
                     </div>
-                    {{ form_widget(form.dropOffDate) }}
+                    {{ form_widget(form.dropOffDate,{'attr': {'placeholder':'dd.mm.yyyy'}}) }}
                 </div>
             </div>
             <div class="form-group date">
@@ -82,6 +82,12 @@
         </div>
         <div class="border border-secondary font-weight-bold rounded pr-1 pl-1 mb-2 mt-2" id="ride_duration_container">
             <div>Dauer : <span id="ride_duration_span"></span></div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.displayProperty,
+                'Möchten Sie, dass Ihre Telefonnummer, Ihre E-Mail-Adresse oder beides angezeigt wird ?',
+                {'label_attr': {'class': 'text-info font-weight-bold'}}) }}
+            {{ form_widget(form.displayProperty) }}
         </div>
         <div class="form-group">
             {{ form_label(form.description,
